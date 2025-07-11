@@ -70,7 +70,6 @@
         "seekers": "طالِب العمرة",
         "performers": "المعتمرون",
         "review": "بحاجة إلى المراجعة",
-        "umrah": "ادارة العمرة",
         "requests": "طلبات العمره",
         "current": "الطلبات الحالية",
         "lost": "الطلبات المفقودة",
@@ -78,7 +77,20 @@
         "employees": "ادارة الموظفين",
         "coupons": "ادارة الكوبونات",
         "contact_messages": "تواصل معنا",
-        "chats": "المحادثات"
+        "chats": "المحادثات",
+        "finance": "إدارة المالية",
+        "accounts": "الخزائن والحسابات البنكية",
+        "incoming": "الوارد",
+        "outgoing": "الصادر",
+        "withdrawal": "طلبات السحب",
+        "reports": "التقارير",
+        "umrah": "ادارة العمرة",
+        "countries": "البلدان",
+        "expenses": "المصروفات",
+        "incomes": "الايرادات",
+        "employees_management": "ادارة الموظفين",
+        "coupons_management": "ادارة الكوبونات",
+        "contact_us_messages": "تواصل معنا"
     },
     "page_title": {
         "seekers": "طالِب العمرة",
@@ -88,9 +100,25 @@
         "employees": "ادارة الموظفين",
         "coupons": "ادارة الكوبونات",
         "contact_messages": "تواصل معنا",
-        "chats": "المحادثات"
+        "chats": "المحادثات",
+        "finance": "إدارة المالية",
+        "accounts": "الخزائن والحسابات البنكية",
+        "incoming": "الوارد",
+        "outgoing": "الصادر",
+        "withdrawal": "طلبات السحب",
+        "reports": "التقارير",
+        "countries": "البلدان",
+        "expenses": "المصروفات",
+        "incomes": "الايرادات"
     },
     "data_table": {
+        "note":"ملاحظه",
+        "received_at":"تاريخ الاستلام",
+        "amount":"القيمة",
+        "term":"البند",
+        "balance": "الرصيد",
+        "account":"البنك/الخزينة",
+        "account_name": "البنك",
         "user_type": "الدور",
         "roles": {
             "ADMIN": "مدير",
@@ -124,9 +152,8 @@
         "face_with_national_id": "صورة الوجه مع البطاقه",
         "valid_date": "فترة الصلاحية",
         "max_uses": "حد الاستخدامات ",
-        "discount":"الخصم",
-        "free":"مجاني",
-      
+        "discount": "الخصم",
+        "free": "مجاني",
         "verification_status": {
             "no_verification_uploaded": "لم يتم الرفع",
             "pending": "قيد الانتظار",
@@ -382,5 +409,43 @@
             "progress": "التقدم",
             "history": "السجل"
         }
-    }
+    },
+    "finance": {
+        "cancel": "الغاء",
+        "save": "حفظ",
+        "new": "اضافة",
+
+        "create_account_title": "اضافة حساب بنكي/خزينة",
+        "account_name": "اسم البنك /الخزينة",
+        "balance": "الرصيد",
+        "res":{
+            "created": "تم إنشاء الحساب بنجاح",
+            "updated": "تم تحديث الحساب بنجاح",
+            "deleted": "تم حذف الحساب بنجاح",
+            "failed": "فشل إنشاء الحساب"
+        }
+
+    },
+    "terms": {
+        "title": "البنود",
+        "add_term": "اضافة بند",
+        "cancel": "الغاء",
+        "add_term_title": "اضافة بند جديد",
+        "name": "البند",
+        "description": "الوصف",
+        "save": "حفظ",
+        "save_changes": "حفظ التغييرات",
+        "close": "اغلاق",
+        "res": {
+            "created": "تم اضافة البند بنجاح",
+            "updated": "تم تحديث البند بنجاح",
+            "deleted": "تم حذف البند بنجاح",
+            "failed": "فشل اضافة البند"
+        }
+    },
+    "transactions": {
+        "incoming": "الوارد",
+        "outgoing": "الصادر",
+        "terms": "البنود"
+        }
 }

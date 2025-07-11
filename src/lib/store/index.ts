@@ -5,6 +5,9 @@ import { umrahApi } from "../apis/umrah";
 import { couponApi } from "../apis/coupon";
 import { contactApi } from "../apis/contact";
 import { chatApi } from "../apis/chat";
+import { accountsApi } from "../apis/account";
+import { financeApi } from "../apis/finance";
+import { termApi } from "../apis/term";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +16,9 @@ export const store = configureStore({
     [umrahApi.reducerPath]: umrahApi.reducer,
     [couponApi.reducerPath]: couponApi.reducer,
     [contactApi.reducerPath]: contactApi.reducer,
+    [accountsApi.reducerPath]: accountsApi.reducer,
+    [financeApi.reducerPath]: financeApi.reducer,
+    [termApi.reducerPath]: termApi.reducer,
     [chatApi.reducerPath]: chatApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
@@ -22,7 +28,10 @@ export const store = configureStore({
       umrahApi.middleware,
       couponApi.middleware,
       contactApi.middleware,
-      chatApi.middleware
+      chatApi.middleware,
+      accountsApi.middleware,
+      financeApi.middleware,
+      termApi.middleware
     );
   },
 });

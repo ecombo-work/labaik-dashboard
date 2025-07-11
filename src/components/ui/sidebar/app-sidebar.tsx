@@ -100,11 +100,11 @@ function AdminMenuItems() {
         },
         {
           title: t("incoming"),
-          url: "finance/incoming",
+          url: "finance/incoming?type=0",
         },
         {
           title: t("outgoing"),
-          url: "finance/outgoing",
+          url: "finance/outgoing?type=1",
         },
         {
           title: t("withdrawal"),

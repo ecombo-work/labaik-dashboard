@@ -144,7 +144,7 @@ export default function Page() {
               </FormItem>
             )}
           />
-          <Button is_loading={false} className="w-full" type="submit">
+          <Button is_loading={isLoading} className="w-full" type="submit">
             {t("login")}
           </Button>
         </form>
