@@ -1,0 +1,48 @@
+import { UserType } from "@/lib/roles";
+
+export const roleAccessMap: Record<UserType, string[]> = {
+  [UserType.ADMIN]: [
+    '/dashboard/overview',
+    '/dashboard/chats',
+    '/dashboard/contact-messages',
+    '/dashboard/coupons',
+    '/dashboard/coupons/new',
+    '/dashboard/employees',
+    '/dashboard/finance/accounts',
+    '/dashboard/finance/incoming',
+    '/dashboard/finance/outgoing',
+    '/dashboard/finance/withdrawals',
+    '/dashboard/reports/countries',
+    '/dashboard/reports/expenses',
+    '/dashboard/reports/incomes',
+    '/dashboard/reports/performers',
+    '/dashboard/reports/requests',
+    '/dashboard/reports/seekers',
+    '/dashboard/umrah/current',
+    '/dashboard/umrah/lost',
+    '/dashboard/users/performers',
+    '/dashboard/users/review',
+    '/dashboard/users/seekers',
+  ],
+  [UserType.CALL_SERVICE]: [
+    '/dashboard/chats',
+    '/dashboard/contact-messages',
+    '/dashboard/coupons',
+    '/dashboard/umrah/current',
+    '/dashboard/umrah/lost',
+    '/dashboard/users/performers',
+    '/dashboard/users/review',
+    '/dashboard/users/seekers',
+    '/dashboard/finance/withdrawals',
+  ],
+  [UserType.ACCOUNTANT]: [
+    '/dashboard/finance/accounts',
+    '/dashboard/finance/incoming',
+    '/dashboard/finance/outgoing',
+    '/dashboard/reports/incomes',
+    '/dashboard/reports/expenses',
+  ],
+  [UserType.SUPER_ADMIN]: [
+    '/dashboard/overview',
+  ],
+};
