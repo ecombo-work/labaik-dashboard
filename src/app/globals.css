@@ -1,0 +1,212 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-cairo: var(--font-cairo);
+  --font-rubik: var(--font-rubik);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+/* Main Color Palette
+1. Yellow Bright: #F2E205 => oklch(89.72% 0.189 104.36)
+2. Yellow Rich:  #F2CB05 => oklch(85.05% 0.174 94.84)
+3. Yellow Deep:  #F2B705 => oklch(81.14% 0.166 84.96)
+4. Red Bold:     #F20505 => oklch(60.46% 0.247 29.09)
+5. Black:        #0D0D0D => oklch(15.91% 0.000 0)
+6. White:        #FFFFFF => oklch(0.9851 0 0)    
+*/
+/* old white oklch(1 0 0) */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.9851 0 0);
+  --foreground: oklch(15.91% 0 0); /* #0D0D0D */
+
+  --card: oklch(0.9851 0 0);
+  --card-foreground: oklch(15.91% 0 0);
+
+  --popover: oklch(0.9851 0 0);
+  --popover-foreground: oklch(15.91% 0 0);
+
+  --primary: oklch(85.05% 0.174 94.84); /* #F2CB05 */
+
+  --primary-foreground: oklch(15.91% 0 0); /* black */
+
+  --secondary: oklch(89.72% 0.189 104.36); /* #F2E205 */
+  --secondary-foreground: oklch(15.91% 0 0);
+
+  --accent: oklch(0.8114 0.166 84.96); /* #F2B705 */
+  --accent-foreground: oklch(15.91% 0 0);
+
+  --destructive: oklch(0.6046 0.247 29.09); /* #F20505 */
+  --destructive-foreground: oklch(0.9851 0 0);
+
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(1 0 0 / 0);
+
+  --sidebar: oklch(0.9851 0 0);
+  --sidebar-foreground: oklch(15.91% 0 0);
+  --sidebar-primary: oklch(89.72% 0.189 104.36);
+  --sidebar-primary-foreground: oklch(15.91% 0 0);
+  --sidebar-accent: oklch(0.8505 0.174 94.84);
+  --sidebar-accent-foreground: oklch(15.91% 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(15.91% 0 0);
+  --foreground: oklch(1 0 0);
+
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(1 0 0);
+
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(1 0 0);
+
+  --primary: oklch(0.8505 0.174 94.84); /* #F2CB05 */
+  --primary-foreground: oklch(15.91% 0 0);
+
+  --secondary: oklch(0.8114 0.166 84.96); /* #F2B705 */
+  --secondary-foreground: oklch(15.91% 0 0);
+
+  --accent: oklch(0.8972 0.189 104.36); /* #F2E205 */
+  --accent-foreground: oklch(15.91% 0 0);
+
+  --destructive: oklch(0.6046 0.247 29.09); /* #F20505 */
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.8505 0.174 94.84);
+  --sidebar-primary-foreground: oklch(15.91% 0 0);
+  --sidebar-accent: oklch(0.8972 0.189 104.36);
+  --sidebar-accent-foreground: oklch(15.91% 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground rtl:font-cairo ltr:font-rubik;
+  }
+}
+
+@layer components {
+  .filter-logo {
+    filter: brightness(0) invert(1);
+  }
+  .container {
+    @apply mx-auto px-4;
+  }
+  .card {
+    @apply p-2 bg-card rounded-lg drop-shadow-xl;
+  }
+  .form {
+    @apply bg-white shadow-lg rounded-lg px-8 py-10  w-full max-w-md;
+  }
+  svg:not(ol li svg) {
+    @apply w-5 h-5 text-primary;
+  }
+  ol li svg {
+    @apply w-4 h-4;
+  }
+  ol li[data-title] {
+    font-size: 1rem;
+    @apply text-base;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    /* -webkit-text-fill-color: white; */
+  }
+}
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+}
+
+[data-slot="collapsible-content"] {
+  overflow: hidden;
+}
+[data-slot="collapsible-content"][data-state="open"] {
+  animation: slideDown 300ms ease-out;
+}
+[data-slot="collapsible-content"][data-state="closed"] {
+  animation: slideUp 300ms ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
