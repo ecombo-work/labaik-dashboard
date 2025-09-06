@@ -34,7 +34,7 @@ const DisabledInput = ({
         {with_copy && (
           <Button
             variant={"icon"}
-            className="!w-10 !h-10"
+            className="!w-10 !h-9"
             onClick={() => handleCopy(value)}
           >
             {lastCopiedId ? (

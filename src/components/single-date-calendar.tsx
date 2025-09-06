@@ -28,7 +28,7 @@ export default function SingleDateCalendar({
         <Button
           variant="outline"
           type="button"
-          className="!h-10 w-full hover:bg-transparent flex items-center !justify-between border border-primary"
+          className="!h-9 w-full hover:bg-transparent flex items-center !justify-between border border-primary"
         >
           {value && formatDate(value, "yyyy-MM-dd")}
           <CalendarIcon className="ltr:ml-2 rtl:mr-2 h-4 w-4" />

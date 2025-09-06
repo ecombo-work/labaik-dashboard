@@ -77,9 +77,9 @@ export function DataTableCountryNameCell<TData, TValue>({
 // format date
 export function DataTableDateCell<TData, TValue>({ row }: { row: Row<TData> }) {
   return (
-    <div className="flex items-center justify-center">
+    <p className="flex items-center justify-center">
       {formatDate(row.getValue("created_at"))}
-    </div>
+    </p>
   );
 }
 // Map of UserType enum values to their string keys

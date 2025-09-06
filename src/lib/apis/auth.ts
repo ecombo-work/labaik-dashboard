@@ -14,7 +14,19 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+    logout: builder.mutation<ApiResponse<void>, void>({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+    }),
+    getCurrentUser: builder.query<ApiResponse<LoginResponse>, void>({
+      query: () => ({
+        url: "/auth/current-user",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useGetCurrentUserQuery, useLogoutMutation } = authApi;

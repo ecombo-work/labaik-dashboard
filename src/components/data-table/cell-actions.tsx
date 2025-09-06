@@ -31,8 +31,8 @@ export function DataTableActionCell<TData>({
   return (
     <div className="flex items-center justify-center">
       <Link href={full_path}>
-        {icon === "edit" && <Edit2 className="w-5 h-5" />}
-        {icon === "view" && <IconLogin className="w-5 h-5" />}
+        {icon === "edit" && <Edit2 className="size-6" />}
+        {icon === "view" && <IconLogin className="size-6" />}
       </Link>
     </div>
   );

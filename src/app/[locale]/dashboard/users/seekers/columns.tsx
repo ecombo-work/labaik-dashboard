@@ -11,6 +11,7 @@ import {
 } from "@/components/data-table/reuseable";
 import { DataTableChangeStatusCell } from "@/components/data-table/change-status-cell";
 import { Seeker } from "@/lib/apis/user";
+import { DataTableActionCell } from "@/components/data-table/cell-actions";
 
 export const useColumns = () => {
   const t = useTranslations("data_table");
@@ -64,7 +65,13 @@ export const useColumns = () => {
         enableGlobalFilter: true,
         cell: ({ row }) => <DataTableChangeStatusCell id="user_id" entityType="user" row={row} />,
       },
-
+ {
+        header: t("actions"),
+        size: 80,
+        cell: ({ row }) => (
+          <DataTableActionCell icon="view" row={row} path="/dashboard/users" id_path="user_id" />
+        ),
+      },
     ],
     [t]
   );

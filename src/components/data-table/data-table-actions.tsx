@@ -21,7 +21,7 @@ function DataTableActions<TData>({
     <div className="flex-1 flex flex-row gap-2 max-w-sm">
       <div className="w-[220px]">
         {is_loading ? (
-          <Skeleton className="w-[220px] h-10" />
+          <Skeleton className="w-[220px] h-9" />
         ) : (
           <Input
             type="search"
@@ -29,7 +29,7 @@ function DataTableActions<TData>({
             placeholder={t("fast_search")}
             value={(table.getState().globalFilter as string) ?? ""}
             onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className="h-10  !text-xs !w-[220px]"
+            className="h-8  !text-xs !w-[220px]"
             disabled={is_loading}
           />
         )}

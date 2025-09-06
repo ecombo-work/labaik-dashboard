@@ -1,6 +1,5 @@
 "use client";
 import { DataTable } from "@/components/data-table";
-import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Title } from "@/components/ui/typography";
 import { useGetNeedReviewPerformersQuery } from "@/lib/apis/user";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
@@ -23,9 +22,7 @@ export default function Page() {
       }
     );
   return (
-    <div
-    //  className="container"
-    >
+    <>
       <div className="flex justify-between items-center">
         <Title>{t("review_needed")}</Title>
       </div>
@@ -38,6 +35,6 @@ export default function Page() {
         error={error}
         loading={isLoading || isFetching}
       />
-    </div>
+    </>
   );
 }

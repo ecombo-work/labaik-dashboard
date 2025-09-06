@@ -24,10 +24,7 @@ export default function SeekersPage() {
   );
 
   return (
-    <div 
-    // className="container mx-auto"
-    >
-
+    <>
       <div className="flex justify-between items-center">
         <Title>{t("seekers")}</Title>
       </div>
@@ -40,6 +37,6 @@ export default function SeekersPage() {
         error={error}
         loading={isLoading || isFetching}
       />
-    </div>
+    </>
   );
 }

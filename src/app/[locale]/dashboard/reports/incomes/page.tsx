@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import Summary from "./summary";
 
 function Page() {
-  return (
-    <div>Page</div>
-  )
+  return <Summary />;
 }
 
-export default Page
+export default Page;

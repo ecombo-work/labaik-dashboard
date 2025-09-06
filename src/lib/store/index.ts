@@ -11,6 +11,7 @@ import { termApi } from "../apis/term";
 import { withdrawalApi } from "../apis/withdrawal";
 import { overviewApi } from "../apis/overview";
 import { notificationApi } from "../apis/notifications";
+import { reportsApi } from "../apis/reports";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     [chatApi.reducerPath]: chatApi.reducer,
     [notificationApi.reducerPath]: notificationApi.reducer,
     [overviewApi.reducerPath]: overviewApi.reducer,
+    [reportsApi.reducerPath]: reportsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
@@ -41,6 +43,7 @@ export const store = configureStore({
       notificationApi.middleware,
       overviewApi.middleware,
       withdrawalApi.middleware,
+      reportsApi.middleware,
     );
   },
 });

@@ -18,14 +18,14 @@ export const useColumns = () => {
   const t = useTranslations("data_table");
   return useMemo(
     (): ColumnDef<Performer>[] => [
-      {
-        id: "select",
-        header: ({ table }) => <DataTableCheckboxHeader table={table} />,
-        cell: ({ row }) => <DataTableSelectCell row={row} />,
-        size: 50,
-        enableSorting: false,
-        enableHiding: false,
-      },
+      // {
+      //   id: "select",
+      //   header: ({ table }) => <DataTableCheckboxHeader table={table} />,
+      //   cell: ({ row }) => <DataTableSelectCell row={row} />,
+      //   size: 50,
+      //   enableSorting: false,
+      //   enableHiding: false,
+      // },
       {
         header: "#",
         accessorKey: "user_id",

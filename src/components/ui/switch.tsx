@@ -13,7 +13,7 @@ function Switch({
     <SwitchPrimitive.Root
       data-slot="switch"
       className={cn(
-        "peer focus-visible:border-primary focus-visible:ring-ring/50 inline-flex h-6 w-11 shrink-0 items-center rounded-full border border-primary transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+        "peer focus-visible:border-primary focus-visible:ring-ring/50 inline-flex h-6 w-11 shrink-0 items-center rounded-full border border-primary transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50",
         "data-[state=checked]:bg-primary",
         "data-[state=unchecked]:bg-red-500",
         className
@@ -26,10 +26,10 @@ function Switch({
           "pointer-events-none block h-5 w-5 rounded-full ring-0 transition-transform",
           "data-[state=checked]:!bg-green-500 dark:data-[state=checked]:!bg-green-800",
           "data-[state=unchecked]:bg-red-500 dark:data-[state=unchecked]:bg-red-800",
-          "ltr:data-[state=checked]:translate-x-5",
-          "ltr:data-[state=unchecked]:translate-x-[3px]",
-          "rtl:data-[state=checked]:-translate-x-[20px]",
-          "rtl:data-[state=unchecked]:-translate-x-[3px]"
+          "ltr:data-[state=checked]:translate-x-[21px]",
+          "ltr:data-[state=unchecked]:translate-x-[2px]",
+          "rtl:data-[state=checked]:-translate-x-[21px]",
+          "rtl:data-[state=unchecked]:-translate-x-[2px]"
         )}
       />
     </SwitchPrimitive.Root>

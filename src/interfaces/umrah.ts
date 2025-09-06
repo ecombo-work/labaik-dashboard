@@ -6,8 +6,9 @@ import {
   UmrahStatus,
 } from "@/constants/umrah";
 import { PaginationMeta } from "@/lib/apis/user";
+import { CountryCode } from "libphonenumber-js";
 
-export interface CurrentUmrahRequest {
+export interface UmrahRequest {
   umrah_id: number;
   price: string;
   status: UmrahStatus;
@@ -22,7 +23,7 @@ export interface CurrentUmrahRequest {
   };
 }
 export interface CurrentUmrahRequestResponse {
-  items: CurrentUmrahRequest[];
+  items: UmrahRequest[];
   meta: PaginationMeta;
 }
 export interface CurrentUmrahRequestParams {
@@ -38,7 +39,7 @@ interface User {
   email: string;
   phone_number: string;
   profile_image: string;
-  country: string;
+  country: CountryCode;
 }
 
 interface Offer {
@@ -81,12 +82,23 @@ interface Person {
   status: PersonStatus;
   note: string;
 }
+export interface UmrahPricing {
+  platform_fee: string;
+  performer_fee: string;
+  subtotal: string;
+  vat_percentage: string;
+  vat_amount: string;
+  original_price: string;
+  discount_amount: string;
+  total_price: string;
+}
 export interface UmrahDetailsResponse {
   umrah_id: number;
   status: UmrahStatus;
   price: string;
   created_at: string;
   created_by: User;
+  pricing: UmrahPricing;
   assigned_to: User;
   offers: Offer[];
   person: Person;

@@ -42,7 +42,7 @@ function DataTableChangeVerificationCell({ row }: { row: Row<Performer> }) {
   const [selectedStatus, setSelectedStatus] =
     React.useState<UserVerificationStatus>();
   const [status, setStatus] = React.useState<UserVerificationStatus>(
-    Number(row.original.user_details.verification_status)
+    row.original.user_details.verification_status as UserVerificationStatus
   );
   const { user_id } = row.original;
   const [changeVerification, { isLoading }] =
@@ -61,14 +61,15 @@ function DataTableChangeVerificationCell({ row }: { row: Row<Performer> }) {
       .unwrap()
       .then((res) => {
         toast.success(res.message);
-        setOpen(false);
-        form.setValue("status", data.status);
-        setStatus(data.status);
-        // form.reset();
       })
       .catch((error) => {
         console.debug("error", error);
-        // toast.error(error.data.message);
+      })
+      .finally(() => {
+        setOpen(false);
+        form.setValue("status", data.status);
+        setStatus(data.status);
+        form.reset();
       });
   };
 
@@ -78,21 +79,20 @@ function DataTableChangeVerificationCell({ row }: { row: Row<Performer> }) {
         <Select
           value={status.toString()}
           onValueChange={(v) => {
-            const newStatus = Number(v) as UserVerificationStatus;
-            setSelectedStatus(newStatus);
-            form.setValue("status", newStatus);
+            setSelectedStatus(v as UserVerificationStatus);
+            form.setValue("status", v as UserVerificationStatus);
             setOpen(true);
           }}
-          disabled={
-            status === UserVerificationStatus.VERIFIED ||
-            status === UserVerificationStatus.REJECTED ||
-            status === UserVerificationStatus.NO_VERIFICATION_UPLOADED
-          }
+          disabled={[
+            UserVerificationStatus.VERIFIED,
+            UserVerificationStatus.REJECTED,
+            UserVerificationStatus.NO_VERIFICATION_UPLOADED,
+          ].includes(status as UserVerificationStatus)}
         >
-          <SelectTrigger className="w-[170px] h-10">
+          <SelectTrigger className="w-[180px] h-9">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="!w-[170px]">
+          <SelectContent className="!w-[180px]">
             <SelectItem
               value={UserVerificationStatus.NO_VERIFICATION_UPLOADED.toString()}
             >
@@ -121,11 +121,7 @@ function DataTableChangeVerificationCell({ row }: { row: Row<Performer> }) {
                   {t("change_verification_status_description", {
                     status:
                       selectedStatus !== undefined
-                        ? tData(
-                            `verification_status.${UserVerificationStatus[
-                              selectedStatus
-                            ].toLowerCase()}`
-                          )
+                        ? tData(`verification_status.${selectedStatus?.toLowerCase()}`)
                         : tData("verification_status.pending"),
                   })}
                 </AlertDialogDescription>

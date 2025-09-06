@@ -11,20 +11,20 @@ export enum UmrahStatus {
   CANCELLED_BY_PERFORMER = "9",
   CANCELLED_BY_SEEKER = "10",
   CANCELLED_BY_ADMIN = "11",
-  REQUEST_EXPIRED = "12",
+  SYSTEM_AUTO_CANCELLED = "12",
+  PAYMENT_TIMEOUT = "13",
 }
 export enum UmrahAction {
   UMRAH_REQUEST_CREATED = "0",
-  OFFERS_RECEIVING_STARTED = "1",
+  OFFER_CREATED = "1",
   OFFER_REJECTED = "2",
   OFFER_ACCEPTED = "3",
   OFFER_DECLINED = "4",
 
   AWAITING_PAYMENT = "5",
-  PAYMENT_SUCCESSFUL = "6",
+  PAYMENT_COMPLETED = "6",
   PAYMENT_FAILED = "7",
 
-  REQUEST_CONFIRMED = "8",
   REQUEST_STARTING_SOON = "9",
   REQUEST_IN_PROGRESS = "10",
   REQUEST_COMPLETED = "11",
@@ -36,10 +36,7 @@ export enum UmrahAction {
   CANCELLED_BY_SEEKER = "15",
   CANCELLED_BY_ADMIN = "16",
 
-  REQUEST_EXPIRED = "17",
-
   SYSTEM_AUTO_CANCELLED = "18",
-  SYSTEM_AUTO_EXPIRED = "19",
   START_IHRAM = "20",
   START_TAWAF = "21",
   START_SAI = "22",
@@ -56,13 +53,13 @@ export enum OfferStatus {
 }
 
 export enum Gender {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
+  MALE = "MALE",
+  FEMALE = "FEMALE",
 }
 export enum PersonStatus {
-  MYSELF = '0',
-  SICK = '1',
-  DISABLED = '2',
-  DECEASED = '3',
-  OTHER = '4',
+  MYSELF = "0",
+  SICK = "1",
+  DISABLED = "2",
+  DECEASED = "3",
+  OTHER = "4",
 }

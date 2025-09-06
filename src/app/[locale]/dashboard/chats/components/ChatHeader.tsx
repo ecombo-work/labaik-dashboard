@@ -8,7 +8,7 @@ export function ChatHeader({ chat }: { chat: any }) {
           {chat.participants.slice(0, 2).map((participant: any) => (
             <Avatar
               key={participant.participant_id}
-              className="h-10 w-10 border-2 border-white"
+              className="h-9 w-10 border-2 border-white"
             >
               <AvatarImage
                 src={participant.user.profile_image || ""}

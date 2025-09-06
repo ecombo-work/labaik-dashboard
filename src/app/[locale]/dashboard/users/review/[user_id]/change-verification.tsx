@@ -73,7 +73,10 @@ function ChangeVerification({
         // toast.error(error.data.message);
       });
   };
-
+  const statusKey = Object.entries(UserVerificationStatus).find(
+    ([_, value]) => value === selectedStatus
+  )?.[0] || '';
+  
   return (
     <div className="flex flex-col items-start justify-start">
       <Label className="mb-1">{label}:</Label>
@@ -81,9 +84,8 @@ function ChangeVerification({
         <Select
           value={status.toString()}
           onValueChange={(v) => {
-            const newStatus = Number(v) as UserVerificationStatus;
-            setSelectedStatus(newStatus);
-            form.setValue("status", newStatus);
+            setSelectedStatus(v as UserVerificationStatus);
+            form.setValue("status", v as UserVerificationStatus);
             setOpen(true);
           }}
           disabled={
@@ -92,7 +94,7 @@ function ChangeVerification({
             status === UserVerificationStatus.NO_VERIFICATION_UPLOADED
           }
         >
-          <SelectTrigger className="w-full !h-10">
+          <SelectTrigger className="w-full !h-9">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="!w-full">
@@ -124,11 +126,7 @@ function ChangeVerification({
                   {t("change_verification_status_description", {
                     status:
                       selectedStatus !== undefined
-                        ? tData(
-                            `verification_status.${UserVerificationStatus[
-                              selectedStatus
-                            ].toLowerCase()}`
-                          )
+                        ? tData(`verification_status.${statusKey.toLowerCase()}`)
                         : tData("verification_status.pending"),
                   })}
                 </AlertDialogDescription>

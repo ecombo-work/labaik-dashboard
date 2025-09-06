@@ -43,7 +43,7 @@ const FormSchema = z.object({
   email: z.string().email(),
   phone_number: z.string().min(10).max(15),
   password: z.string().min(8).max(50),
-  user_type: z.enum(Object.values(UserType) as [string, ...string[]]),
+  user_type: z.string(),
 });
 type FormSchemaType = z.infer<typeof FormSchema>;
 function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
@@ -63,11 +63,11 @@ function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
     console.log(data);
   };
   return pre_loader ? (
-    <Skeleton className="!h-10 w-[125px]" />
+    <Skeleton className="!h-9 w-[125px]" />
   ) : (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="!h-10">{t("add_employee")}</Button>
+        <Button className="!h-9">{t("add_employee")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -162,9 +162,14 @@ function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
                       </SelectTrigger>
                       <SelectContent>
                         {Object.values(UserType)
-                          .filter((type) => type !== UserType.SUPER_ADMIN)
+                          .filter(
+                            (type) =>
+                              type !== UserType.SUPER_ADMIN &&
+                              type !== UserType.PERFORMER
+                          )
                           .map((type) => {
-                            const userTypeKey = userTypeToString(type);
+                          
+                              const userTypeKey = userTypeToString(type);
                             return (
                               <SelectItem key={type} value={type}>
                                 {t(`roles.${userTypeKey}`)}
@@ -182,7 +187,7 @@ function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
               <DialogClose onClick={() => form.reset()}>
                 {t("close")}
               </DialogClose>
-              <Button className="!h-10 !w-30">{t("save")}</Button>
+              <Button className="!h-9 !w-30">{t("save")}</Button>
             </DialogFooter>
           </form>
         </Form>

@@ -131,7 +131,7 @@ export function NotificationDialog({
                     <FormControl>
                       <Input
                         placeholder="Enter notification title"
-                        className="h-10"
+                        className="h-9"
                         {...field}
                       />
                     </FormControl>
@@ -173,7 +173,7 @@ export function NotificationDialog({
                     <FormLabel className="font-normal">Send To</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-10">
+                        <SelectTrigger className="h-9">
                           <SelectValue placeholder="Select receiver type" />
                         </SelectTrigger>
                       </FormControl>
@@ -211,7 +211,7 @@ export function NotificationDialog({
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-10 whitespace-nowrap"
+                          className="h-9 whitespace-nowrap"
                           onClick={() => {
                             const now = new Date();
                             now.setMinutes(now.getMinutes() + 5);

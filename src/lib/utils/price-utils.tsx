@@ -69,7 +69,7 @@ export function formatPrice(
     return `${sign}${formattedNumber}${currencySymbol}`;
   }
   return (
-    <span dir={isRTL ? "rtl" : "ltr"} className="price-amount">
+    <span dir={isRTL ? "rtl" : "ltr"} className="price-amount ">
       {isRTL ? (
         <>
           {sign}

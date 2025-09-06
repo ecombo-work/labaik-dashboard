@@ -3,7 +3,6 @@ import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/lib/firebase/config";
 import { LoginInputs, useLoginValidation } from "@/validation/auth-validation";
-import Image from "next/image";
 import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +24,9 @@ import { useLoginMutation } from "@/lib/apis/auth";
 import { toast } from "sonner";
 import { UserType } from "@/lib/roles";
 import { PushNotificationsContext } from "@/providers/notifications-provider";
-
+import Image from "next/image";
+// const labaik_en = "/labaik_en.png";
+// const labaik_ar = "/labaik_ar.png";
 export default function Page() {
   const [login, { isLoading }] = useLoginMutation();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -42,38 +43,32 @@ export default function Page() {
     reValidateMode: "onSubmit",
     shouldFocusError: true,
     defaultValues: {
-      phone_number: "+201234567880",
+      // phone_number:"+966563512274",
+      // password:"Admin@123!",
+      phone_number: "+201000000001",
       password: "SecurePa$$123!",
     },
   });
-  const getUserRedirectPath = (userType: UserType): string => {
-    switch (userType) {
-      case UserType.SUPER_ADMIN:
-        return "/dashboard/overview";
-      case UserType.ADMIN:
-        return "/dashboard/overview";
-      case UserType.CALL_SERVICE:
-      case UserType.ACCOUNTANT:
-        return "/dashboard/umrah-requests/current-requests";
-      default:
-        return "/dashboard";
-    }
-  };
 
-  const onSubmit = async (data: LoginInputs) => {
+  const onSubmit = async (form_data: LoginInputs) => {
     try {
-      const res = await login({
-        ...data,
+      const { data } = await login({
+        ...form_data,
         fcm_token: fcmToken,
       }).unwrap();
-
-      if (res.data?.user?.user_type !== undefined) {
-        const redirectPath = getUserRedirectPath(res.data.user.user_type);
-        router.push(redirectPath);
-        toast.success(t("success"));
+      console.log("login", data);
+      const user_type = data?.user_type;
+      let redirect_path = "error/unauthorized";
+      if ([UserType.ADMIN, UserType.SUPER_ADMIN].includes(user_type!)) {
+        redirect_path = "/dashboard/overview";
       }
+      if ([UserType.CALL_SERVICE, UserType.ACCOUNTANT].includes(user_type!)) {
+        redirect_path = "/dashboard/umrah-requests/current-requests";
+      }
+      router.push(redirect_path);
+      toast.success(t("success"));
     } catch (err: any) {
-      toast.error(err.data?.message || t("errors.login_failed"));
+      toast.error(err.data?.message);
     }
   };
   function handleLocale(value: string) {
@@ -94,9 +89,9 @@ export default function Page() {
       <div className="flex-center mb-5 h-[150px]">
         <Image
           src={locale === "en" ? "/labaik_en.png" : "/labaik_ar.png"}
+          alt="Labaik Logo"
           width={320}
           height={250}
-          alt="Logo"
           priority
           className="object-cover"
         />

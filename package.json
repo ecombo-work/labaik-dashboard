@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "overrides": {
+    "react-is": "^19.0.0-rc-69d4b800-20241021"
+  },
   "dependencies": {
     "@autoform/react": "^3.1.0",
     "@autoform/zod": "^2.2.0",
@@ -32,6 +35,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-virtual": "^3.13.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -40,10 +44,12 @@
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "firebase": "^11.9.0",
+    "geist": "^1.4.2",
     "i18n-iso-countries": "^7.14.0",
     "libphonenumber-js": "^1.12.9",
     "lucide-react": "^0.511.0",
     "next": "15.3.3",
+    "next-auth": "^4.24.11",
     "next-intl": "^4.1.0",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.4.2",
@@ -54,6 +60,7 @@
     "react-medium-image-zoom": "^5.2.14",
     "react-phone-number-input": "^3.4.12",
     "react-redux": "^9.2.0",
+    "recharts": "2.15.4",
     "rtl-detect": "^1.1.2",
     "socket.io-client": "^4.8.1",
     "sonner": "^2.0.5",

@@ -21,12 +21,12 @@ import { PaginationMeta } from "@/lib/apis/user";
 import DataTablePagination from "@/components/data-table/pagination";
 import SelectedRows from "@/components/data-table/selected-rows";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
-import DataTableHeader from "@/components/data-table/data-table-header";
 import DataTableBody from "@/components/data-table/data-table-body";
 import DataTableActions from "@/components/data-table/data-table-actions";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { DataTableHeader } from "./data-table-header";
 
 interface ErrorState {
   message: string;
@@ -112,10 +112,10 @@ export function DataTable<TData, TValue>({
   const handleRetry = () => {
     onRefresh?.();
   };
-  // Handle error state
+
   if (error) {
     return (
-      <div className="container mx-auto py-10">
+      <div className="mx-auto py-10">
         <Alert
           variant="destructive"
           className="mt-4 w-full flex justify-center items-center flex-col"
@@ -130,7 +130,7 @@ export function DataTable<TData, TValue>({
             <div className="w-full mt-2 flex items-center justify-center">
               <Button
                 variant="outline"
-                className="w-28 h-10"
+                className="w-28 h-9"
                 onClick={handleRetry}
               >
                 <RefreshCw className="mr-2 size-5" />
@@ -142,14 +142,9 @@ export function DataTable<TData, TValue>({
       </div>
     );
   }
-
+  console.log(table.getRowModel().rows.length);
   return (
-    <div
-      className={cn(
-        "space-y-4 bg-card py-2 rounded-lg drop-shadow-xl",
-        className
-      )}
-    >
+    <div className={cn("space-y-4   w-full", className)}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-2">
         <DataTableActions
           table={table}
@@ -161,20 +156,23 @@ export function DataTable<TData, TValue>({
           <div className="flex items-center gap-2">{additional_actions}</div>
         )}
       </div>
-
-      <Table>
-        <DataTableHeader table={table} is_loading={loading} />
-        <DataTableBody
-          table={table}
-          t={t}
-          columns={columns}
-          is_loading={loading}
-        />
-      </Table>
-
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-1 px-2">
-        <SelectedRows table={table} t={t} />
-        <DataTablePagination table={table} meta={meta} onPageChange={setPage} />
+      <div className="bg-card border border-gray-200 rounded-xl">
+        <Table className="rounded-xl">
+          <DataTableHeader table={table} is_loading={loading} />
+          <DataTableBody
+            table={table}
+            columns={columns}
+            is_loading={loading}
+          />
+        </Table>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-1 px-2">
+          <SelectedRows table={table} t={t} />
+          <DataTablePagination
+            table={table}
+            meta={meta}
+            onPageChange={setPage}
+          />
+        </div>
       </div>
     </div>
   );

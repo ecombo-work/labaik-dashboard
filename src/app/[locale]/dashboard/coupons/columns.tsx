@@ -12,8 +12,11 @@ import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { DiscountType } from "./create-new";
 import { formatPrice } from "@/lib/utils/price-utils";
+import { useDirLang } from "@/hooks/use-dir-lang";
+import { formatNumber } from "@/lib/utils/number-util";
 export const useColumns = () => {
   const t = useTranslations("data_table");
+  const { dir } = useDirLang();
   return useMemo(
     (): ColumnDef<Coupon>[] => [
       // {
@@ -61,25 +64,22 @@ export const useColumns = () => {
           );
         },
       },
-      // discount type with value
       {
-        // accessorKey: "discount",
+        accessorKey: "discount",
         header: t("discount"),
         size: 100,
         enableGlobalFilter: true,
         cell: ({ row }) => {
-          const discount_type = row.original.discount_type;
+          const discount_type = row.original.discount_type as DiscountType;
           const discount_value = row.original.discount_value;
           return (
-            <span>
+            <>
               {discount_type === DiscountType.PERCENTAGE
-                ? `${discount_value}%`
+                ? `${formatNumber(discount_value)}%`
                 : discount_type === DiscountType.FIXED
-                ? `${formatPrice(discount_value)}`
-                : discount_type === DiscountType.FREE
-                ? t("free")
+                ? formatPrice(discount_value, { isRTL: dir === "rtl" })
                 : "_"}
-            </span>
+            </>
           );
         },
       },

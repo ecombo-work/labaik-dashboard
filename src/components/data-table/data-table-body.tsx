@@ -1,19 +1,17 @@
 import React from "react";
 import { TableBody, TableCell, TableRow } from "../ui/table";
 import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
-import { useTranslations } from "next-intl";
 import { Skeleton } from "../ui/skeleton";
+import { NoDataIcon } from "../svgs/no-data";
 
 interface DataTableBodyProps<TData, TValue> {
   table: Table<TData>;
-  t: (key: string) => string;
   columns: ColumnDef<TData, TValue>[];
   is_loading: boolean;
 }
 
 function DataTableBody<TData, TValue>({
   table,
-  t,
   columns,
   is_loading,
 }: DataTableBodyProps<TData, TValue>) {
@@ -38,7 +36,7 @@ function DataTableBody<TData, TValue>({
       <TableBody>
         <TableRow>
           <TableCell colSpan={columns.length} className="h-24 text-center">
-            {t("no_data")}
+            <NoDataIcon className="mx-auto w-[350px] h-[350px]" />
           </TableCell>
         </TableRow>
       </TableBody>

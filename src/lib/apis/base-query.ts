@@ -1,47 +1,42 @@
-// import { fetchBaseQuery } from "@reduxjs/toolkit/query";
-
-// export const baseQuery = fetchBaseQuery({
-//   baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL_V1,
-//   credentials: "include",
-
-// });
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
-import { toast } from "sonner"; // or your toast library
-
+import { toast } from "sonner";
+import HandleLogout from "../utils/handle-logout";
 export const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL_V1,
+  baseUrl: "/v1",
   credentials: "include",
 });
 
-export const baseQueryWithToast = async (
-  args: any,
-  api: any,
-  extraOptions: any
+export const baseQueryWithToast: typeof baseQuery = async (
+  args,
+  api,
+  extraOptions
 ) => {
   const result = await baseQuery(args, api, extraOptions);
 
-  // Check if there's an error in the response
   if (result.error) {
-    const error = result.error as { status: number; data: any };
+    const error = result.error as { status: number; data?: any };
     let errorMessage = "An error occurred";
 
-    // Handle different types of errors
     if (error.status === 401) {
       errorMessage = "Unauthorized - Please log in again";
+      toast.error(errorMessage);
+      await baseQuery(
+        { url: "/auth/logout", method: "POST" },
+        api,
+        extraOptions
+      );
+      window.location.href = "login";
     } else if (error.status === 403) {
       errorMessage = "You don't have permission to perform this action";
+      toast.error(errorMessage);
     } else if (error.status === 400) {
-      errorMessage = error.data.message;
+      errorMessage = error.data?.message ?? "Invalid request";
+      toast.error(errorMessage);
     } else if (error.data?.message) {
-      errorMessage = error.data.message;
+      toast.error(error.data.message);
     } else if (typeof error.data === "string") {
-      errorMessage = error.data;
+      toast.error(error.data);
     }
-
-    // Show error toast
-    // console.log("error message",errorMessage)
-    // console.error("global error", error);
-    toast.error(errorMessage);
   }
 
   return result;

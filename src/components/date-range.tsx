@@ -37,8 +37,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-
-
 const multiSelectVariants = cva(
   "flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
@@ -71,6 +69,7 @@ interface CalendarDatePickerProps
   numberOfMonths?: 1 | 2;
   yearsRange?: number;
   onDateSelect: (range: { from: Date | null; to: Date | null }) => void;
+  onSave?: () => void;
 }
 
 export const CalendarDatePicker = React.forwardRef<
@@ -87,6 +86,7 @@ export const CalendarDatePicker = React.forwardRef<
       yearsRange = 10,
       onDateSelect,
       variant,
+      onSave,
       ...props
     },
     ref
@@ -114,18 +114,18 @@ export const CalendarDatePicker = React.forwardRef<
       null
     );
     const months = [
-      t('january'),
-      t('february'),
-      t('march'),
-      t('april'),
-      t('may'),
-      t('june'),
-      t('july'),
-      t('august'),
-      t('september'),
-      t('october'),
-      t('november'),
-      t('december'),
+      t("january"),
+      t("february"),
+      t("march"),
+      t("april"),
+      t("may"),
+      t("june"),
+      t("july"),
+      t("august"),
+      t("september"),
+      t("october"),
+      t("november"),
+      t("december"),
     ];
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -435,7 +435,7 @@ export const CalendarDatePicker = React.forwardRef<
               className={cn(
                 "w-auto",
                 multiSelectVariants({ variant, className }),
-                "!flex !items-center !justify-start gap-2 bg-transparent hover:bg-transparent border border-primary !px-2"
+                "!flex !shadow-none !items-center !justify-start gap-2 bg-transparent hover:bg-transparent border !px-2"
               )}
               onClick={handleTogglePopover}
               suppressHydrationWarning
@@ -444,7 +444,7 @@ export const CalendarDatePicker = React.forwardRef<
               <span className="text-sm">
                 {date && date.from ? (
                   date.to ? (
-                    <span 
+                    <span
                       className="date-part"
                       dir={locale === "ar" ? "rtl" : "ltr"}
                     >
@@ -457,7 +457,7 @@ export const CalendarDatePicker = React.forwardRef<
                       )}
                     </span>
                   ) : (
-                    <span 
+                    <span
                       className="date-part"
                       dir={locale === "ar" ? "rtl" : "ltr"}
                     >
@@ -466,18 +466,19 @@ export const CalendarDatePicker = React.forwardRef<
                   )
                 ) : date ? (
                   <span dir={locale === "ar" ? "rtl" : "ltr"}>
-                    {date.from && formatWithTz(date.from, "dd MMM yyyy") 
-                    // t('pickDate')
+                    {
+                      date.from && formatWithTz(date.from, "dd MMM yyyy")
+                      // t('pickDate')
                     }
                   </span>
-                ):null }
+                ) : null}
               </span>
             </Button>
           </PopoverTrigger>
           {isOpen && (
             <PopoverContent
               className="w-auto"
-              align="center"
+              align="end"
               avoidCollisions={false}
               onInteractOutside={handleClose}
               onEscapeKeyDown={handleClose}
@@ -620,15 +621,18 @@ export const CalendarDatePicker = React.forwardRef<
                       onClick={handleClose}
                       className="min-w-[100px]"
                     >
-                      {t('close')}
+                      {t("close")}
                     </Button>
                     <Button
                       variant="default"
                       size="sm"
-                      onClick={handleClose}
+                      onClick={() => {
+                        handleClose();
+                        onSave?.();
+                      }}
                       className="min-w-[100px]"
                     >
-                      {t('save')}
+                      {t("save")}
                     </Button>
                   </div>
                 </div>

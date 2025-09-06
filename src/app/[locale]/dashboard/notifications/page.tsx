@@ -3,6 +3,7 @@
 import { FullScreenCalendar } from "@/components/calendar";
 import { Title } from "@/components/ui/typography";
 import { useGetScheduleNotificationsQuery } from "@/lib/apis/notifications";
+import { useTranslations } from "next-intl";
 const dummyEvents = [
   {
     day: new Date("2025-07-02"),
@@ -103,13 +104,14 @@ const dummyEvents = [
   },
 ];
 export default function Page() {
+  const t = useTranslations("page_title"); 
   const { data:notifications, isLoading, refetch } = useGetScheduleNotificationsQuery({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
   });
   return (
     <div>
-      <Title>Notifications</Title>
+      <Title>{t("notifications")}</Title>
       <div className="space-y-4 bg-card rounded-lg drop-shadow-xl ">
         <FullScreenCalendar data={notifications?.data || []}  />
       </div>

@@ -59,11 +59,11 @@ export default function CreateAccount({ pre_loader }: { pre_loader: boolean }) {
   };
 
   return pre_loader ? (
-    <Skeleton className="!h-10 w-[125px]" />
+    <Skeleton className="!h-9 w-[125px]" />
   ) : (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="!h-10">{t("new")}</Button>
+        <Button className="!h-9">{t("new")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -106,7 +106,7 @@ export default function CreateAccount({ pre_loader }: { pre_loader: boolean }) {
               <DialogClose disabled={isLoading} onClick={() => form.reset()}>
                 {t("cancel")}
               </DialogClose>
-              <Button is_loading={isLoading} className="!h-10 !w-30">
+              <Button is_loading={isLoading} className="!h-9 !w-30">
                 {t("save")}
               </Button>
             </DialogFooter>

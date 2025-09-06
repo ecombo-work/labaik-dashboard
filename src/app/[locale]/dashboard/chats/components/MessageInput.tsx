@@ -30,7 +30,7 @@ export function MessageInput({
         <Button
           type="submit"
           size="icon"
-          className="h-10 w-10"
+          className="h-9 w-10"
           disabled={!value.trim() || disabled}
         >
           <SendHorizontal className="h-4 w-4" />

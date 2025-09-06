@@ -25,36 +25,36 @@ export default function middleware(request: NextRequest) {
   );
 
   // Block access to protected pages if not authenticated
-  // if (!access_token && !isPublic) {
-  //   const loginUrl = new URL(`/${locale}/login`, request.url);
-  //   return NextResponse.redirect(loginUrl);
-  // }
+  if (!access_token && !isPublic) {
+    const loginUrl = new URL(`/${locale}/login`, request.url);
+    return NextResponse.redirect(loginUrl);
+  }
 
-  // const isRootOrLogin =
-  //   pathname === "/" || pathname === `/${locale}` || isPublic;
+  const isRootOrLogin =
+    pathname === "/" || pathname === `/${locale}` || isPublic;
 
-  // if (access_token && user_type && isRootOrLogin) {
-  //   let dashboardUrl;
+  if (access_token && user_type && isRootOrLogin) {
+    let dashboardUrl;
 
-  //   switch (user_type) {
-  //     case UserType.SUPER_ADMIN:
-  //     case UserType.ADMIN:
-  //       dashboardUrl = new URL(`/${locale}/dashboard/overview`, request.url);
-  //       break;
-  //     case UserType.CALL_SERVICE:
-  //     case UserType.ACCOUNTANT:
-  //       dashboardUrl = new URL(
-  //         `/${locale}/dashboard/umrah-requests/current-requests`,
-  //         request.url
-  //       );
-  //       break;
-  //     default:
-  //       dashboardUrl = new URL(`/${locale}/error/unauthorized`, request.url);
-  //       break;
-  //   }
+    switch (user_type) {
+      case UserType.SUPER_ADMIN:
+      case UserType.ADMIN:
+        dashboardUrl = new URL(`/${locale}/dashboard/overview`, request.url);
+        break;
+      case UserType.CALL_SERVICE:
+      case UserType.ACCOUNTANT:
+        dashboardUrl = new URL(
+          `/${locale}/dashboard/umrah-requests/current-requests`,
+          request.url
+        );
+        break;
+      default:
+        dashboardUrl = new URL(`/${locale}/error/unauthorized`, request.url);
+        break;
+    }
 
-  //   return NextResponse.redirect(dashboardUrl);
-  // }
+    return NextResponse.redirect(dashboardUrl);
+  }
   // const pathWithoutLocale = locale
   //   ? pathname.slice(locale.length + 1)
   //   : pathname;

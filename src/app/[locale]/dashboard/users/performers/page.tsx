@@ -23,7 +23,7 @@ export default function Page() {
     }
   );
   return (
-    <div>
+    <>
       <div className="flex justify-between items-center">
         <Title>{t("performers")}</Title>
       </div>
@@ -36,6 +36,6 @@ export default function Page() {
         error={error}
         loading={isLoading || isFetching}
       />
-    </div>
+    </>
   );
 }

@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuSkeleton,
+  SidebarRail,
 } from "@/components/ui/sidebar";
 import { Icon, IconDashboard, IconProps } from "@tabler/icons-react";
 import { useDirLang } from "@/hooks/use-dir-lang";
@@ -33,6 +34,10 @@ import { UserType } from "@/lib/roles";
 import { useTranslations } from "next-intl";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import { useGetOverviewStatisticsQuery } from "@/lib/apis/overview";
+import { SidebarUser } from "./sidebar-user";
+import { useGetCurrentUserQuery } from "@/lib/apis/auth";
+const labaik_en = "/labaik_en.png";
+const labaik_ar = "/labaik_ar.png";
 export interface IMenuItem {
   title: string;
   url: string;
@@ -175,20 +180,6 @@ function AdminMenuItems() {
       icon: Mail,
       count: overviewStatistics?.data?.in_progress_contacts,
     },
-
-    /*
-     {
-      title: t("users_management"),
-      url: "#",
-      icon: UsersRound,
-      items: [
-        {
-          title: t("seekers"),
-          url: "users/seekers",
-        },
-      ],
-    },
-    */
   ];
   if (isLoading) {
     return menu_items.map((_, idx) => (
@@ -203,18 +194,19 @@ function AdminMenuItems() {
 
 export function AppSidebar({ user_type }: { user_type: UserType }) {
   const { dir, lang } = useDirLang();
-
+  const { data: current_user } = useGetCurrentUserQuery();
+  console.log("current_user", current_user);
   return (
     <Sidebar
       side={dir === "rtl" ? "right" : "left"}
       collapsible="offcanvas"
-      variant="sidebar"
+      variant="inset"
     >
       <SidebarHeader>
         <div className="flex-center my-5 h-[100px]">
           <div className="relative w-[260px] h-[130px]">
             <Image
-              src={lang === "en" ? "/labaik_en.png" : "/labaik_ar.png"}
+              src={lang === "en" ? labaik_en : labaik_ar}
               alt="Logo"
               fill
               priority
@@ -224,13 +216,14 @@ export function AppSidebar({ user_type }: { user_type: UserType }) {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="px-1 mt-10">
+      <SidebarContent className="px-1 mt-10 hidden-scrollbar">
         <AdminMenuItems />
-        {/* {[UserType.SUPER_ADMIN, UserType.ADMIN].includes(user_type) && (
-        )} */}
       </SidebarContent>
 
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarUser user={current_user?.data!} />
+      </SidebarFooter>
+      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }

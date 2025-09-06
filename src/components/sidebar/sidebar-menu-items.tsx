@@ -8,13 +8,13 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "../sidebar";
+} from "../ui/sidebar";
 import { IMenuItem } from "./app-sidebar";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "../collapsible";
+} from "../ui/collapsible";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
@@ -24,8 +24,12 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
     <SidebarMenu>
       {items?.map((item, idx) => {
         const normalize = (path: string) => {
-          // Remove leading/trailing slashes and add dashboard prefix
-          const normalized = `/dashboard/${path}`.replace(/^\/+|\/+$/g, "");
+          // Remove query params before normalization
+          const cleanPath = path.split("?")[0];
+          const normalized = `/dashboard/${cleanPath}`.replace(
+            /^\/+|\/+$/g,
+            ""
+          );
           return `/${normalized}`;
         };
 
@@ -51,11 +55,10 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
                     isActive={isItemActive}
-                    size={"lg"}
                     className="cursor-pointer w-full flex items-center gap-3 justify-start"
                   >
                     <item.icon />
-                    <p className="text-base ">{item.title}</p>
+                    <p className="text-base">{item.title}</p>
                     <ChevronRight className="!size-4 ltr:ml-auto rtl:mr-auto transition-transform duration-200 rtl:group-data-[state=closed]/collapsible:rotate-180 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
@@ -68,18 +71,16 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
                         <SidebarMenuSubItem key={idx}>
                           <SidebarMenuSubButton
                             isActive={isSubActive}
-                            size="md"
+                            size="sm"
                             asChild
                           >
                             <Link
                               href={subPath}
-                              className="relative w-full flex "
+                              className="relative w-full flex justify-between"
                             >
-                              <p className="text-xs">{sub.title}</p>
+                              <p className="">{sub.title}</p>
                               {sub.count && (
-                                <SidebarMenuBadge className="ltr:!right-11/12 rtl:!left-11/12 rtl:!right-11/12">
-                                  {sub.count}
-                                </SidebarMenuBadge>
+                                <SidebarMenuBadge>{sub.count}</SidebarMenuBadge>
                               )}
                             </Link>
                           </SidebarMenuSubButton>
@@ -91,18 +92,18 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
               </SidebarMenuItem>
             ) : (
               <SidebarMenuItem>
-                <SidebarMenuButton isActive={isItemActive} size={"lg"} asChild>
+                <SidebarMenuButton isActive={isItemActive} asChild>
                   <Link
                     href={normalize(item.url)}
-                    className="w-full flex items-center gap-3 justify-start"
+                    className="w-full flex items-center gap-3 justify-between"
                   >
                     <item.icon />
-                    <p className="text-base">{item.title}</p>
-                  {item.count && (
-                    <SidebarMenuBadge className="ltr:!right-11/12 rtl:!left-11/12 rtl:!right-11/12">
-                      {item.count}
-                    </SidebarMenuBadge>
-                  )}
+                    <span className="flex items-center justify-between w-full">
+                      <p className="text-base">{item.title}</p>
+                      {item.count && (
+                        <SidebarMenuBadge>{item.count}</SidebarMenuBadge>
+                      )}
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

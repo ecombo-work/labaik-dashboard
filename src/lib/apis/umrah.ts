@@ -27,9 +27,21 @@ export const umrahApi = createApi({
     >({
       query: ({ umrah_id }) => ({
         url: `/umrah/details/${umrah_id}`,
-  
+      }),
+    }),
+    lostRequests: builder.query<
+      ApiResponse<CurrentUmrahRequestResponse>,
+      CurrentUmrahRequestParams
+    >({
+      query: (params) => ({
+        url: `/umrah/lost-requests`,
+        params,
       }),
     }),
   }),
 });
-export const { useGetCurrentRequestsQuery, useGetUmrahDetailsQuery } = umrahApi;
+export const {
+  useGetCurrentRequestsQuery,
+  useGetUmrahDetailsQuery,
+  useLostRequestsQuery,
+} = umrahApi;

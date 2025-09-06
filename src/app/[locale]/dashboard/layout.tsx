@@ -1,14 +1,13 @@
-import { AppSidebar } from "@/components/ui/sidebar/app-sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { UserRole, UserType } from "@/lib/roles";
+import {  UserType } from "@/lib/roles";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-import { ModeToggle } from "@/components/mode-toggle";
-import { PageBreadcrumb } from "@/components/page-breadcrumb";
+;
 export async function generateMetadata({
   params,
 }: {
@@ -19,6 +18,7 @@ export async function generateMetadata({
 
   return {
     title: t("admin"),
+    description: "Labaik Dashboard",
   };
 }
 export default async function Layout({
@@ -33,14 +33,20 @@ export default async function Layout({
   const user_type = cookieStore.get("USER_TYPE")?.value as unknown as UserType;
   return (
     <SidebarProvider>
+      {/* <WaveBg /> */}
       <AppSidebar user_type={user_type} />
-      <main className="h-full relative py-10 w-dvw">
-        <div className="container  relative">
-          <SidebarTrigger className="  " />
-          <PageBreadcrumb className="px-0" />
+      <SidebarInset>
+        <header className="bg-background/40 sticky top-0 z-50 flex h-(--header-height) shrink-0 items-center gap-2 border-b backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) md:rounded-tl-xl md:rounded-tr-xl">
+          <div className="flex items-center px-4">
+            <SidebarTrigger />
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main p-4 xl:group-data-[theme-content-layout=centered]/layout:container xl:group-data-[theme-content-layout=centered]/layout:mx-auto">
+            {children}
+          </div>
         </div>
-        <section className="container">{children}</section>
-      </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }

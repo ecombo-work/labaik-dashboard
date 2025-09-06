@@ -12,12 +12,31 @@ const firebaseConfig = {
   vapidKey:
     "BKtV2MFzioHnXOlWvvjufWywyWkTq9UmiAWA6A3saGLtK4F87Jb8MfAWw8XcNbj0tN8gqF2pIHOfWDrry3rxbpE",
 };
+// async rewrites() {
+//     if (process.env.NODE_ENV !== "development") {
+//       return [
+//         {
+//           source: "/v1/:path*",
+//           destination: "http://localhost:3001/v1/:path*",
+//         },
+//       ];
+//     }
+//     return [];
+//   },
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/v1/:path*",
+        destination: "http://localhost:3001/v1/:path*",
+      },
+    ];
+  },
   compress: true,
-  output: 'standalone',
+  output: "standalone",
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@radix-ui/react-*'],
+    optimizePackageImports: ["@radix-ui/react-*"],
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -27,6 +46,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "sgp1.digitaloceanspaces.com",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
       },
       {
         protocol: "https",
@@ -60,7 +83,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
 };
 
 const withNextIntl = createNextIntlPlugin();

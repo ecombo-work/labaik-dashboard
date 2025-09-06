@@ -75,14 +75,14 @@ export function DataTablePageSize<TData>({
     <div className="flex items-center gap-2">
       {/* <span className="text-sm text-muted-foreground">Rows per page:</span> */}
       {is_loading ? (
-        <Skeleton className="w-[100px] h-10" />
+        <Skeleton className="w-[100px] h-8" />
       ) : (
         <Select
           value={`${displayPageSize}`}
           onValueChange={handlePageSizeChange}
           disabled={is_loading}
         >
-          <SelectTrigger className="w-[100px] h-10">
+          <SelectTrigger className="w-[100px] !h-8">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="!w-[100px]">
@@ -92,7 +92,7 @@ export function DataTablePageSize<TData>({
               </SelectItem>
             ))}
             {count && count > Math.max(...STANDARD_PAGE_SIZES) && (
-              <SelectItem value={`${count}`}>All ({count})</SelectItem>
+              <SelectItem value={`${count}`}>{count}</SelectItem>
             )}
           </SelectContent>
         </Select>

@@ -1,9 +1,4 @@
-import React from 'react'
-
-function Page() {
-  return (
-    <div>Page</div>
-  )
+import ReportData from "./report-data";
+export default async function Page() {
+  return <ReportData />;
 }
-
-export default Page

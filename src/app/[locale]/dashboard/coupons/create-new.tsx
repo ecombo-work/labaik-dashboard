@@ -8,7 +8,7 @@ import {
   UseFormReturn,
 } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -37,58 +37,80 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { endOfMonth, format, startOfToday } from "date-fns";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CalendarDatePicker } from "@/components/date-range";
-import { DateRange } from "react-day-picker";
 import { useCreateCouponMutation } from "@/lib/apis/coupon";
 import { toast } from "sonner";
 
 export enum DiscountType {
   PERCENTAGE = "0",
   FIXED = "1",
-  FREE = "2",
 }
 
-// Define the form schema type first
-type FormSchemaType = {
-  code: string;
-  discount_type: DiscountType;
-  discount_value: string;
-  max_uses: string;
-  date_range: DateRange;
-  is_active: boolean;
-};
+// Define the form schema
+const couponFormSchema = z.object({
+  code: z.string().min(1, "Coupon code is required"),
+  discount_type: z.nativeEnum(DiscountType, {
+    required_error: "Discount type is required",
+  }),
+  discount_value: z.string().refine(
+    (val) => {
+      const num = parseFloat(val);
+      return !isNaN(num) && num > 0;
+    },
+    {
+      message: "Discount value must be a positive number",
+    }
+  ),
+  max_uses: z.string().refine(
+    (val) => {
+      const num = parseInt(val, 10);
+      return !isNaN(num) && num > 0 && Number.isInteger(num);
+    },
+    {
+      message: "Max uses must be a positive integer",
+    }
+  ),
+  date_range: z.object({
+    from: z.date({
+      required_error: "Start date is required",
+    }),
+    to: z.date({
+      required_error: "End date is required",
+    }),
+  }).refine(
+    (data) => !data.to || !data.from || data.to >= data.from,
+    {
+      message: "End date must be after start date",
+      path: ["to"],
+    }
+  ),
+  is_active: z.boolean(),
+});
+
+type FormSchemaType = z.infer<typeof couponFormSchema>;
 
 export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
   const [createCoupon, { isLoading }] = useCreateCouponMutation();
   const t = useTranslations("coupons");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   // Create form with default values
   const form = useForm<FormSchemaType>({
+    resolver: zodResolver(couponFormSchema),
     defaultValues: {
       code: "",
       discount_type: DiscountType.PERCENTAGE,
       discount_value: "",
       max_uses: "1",
-      date_range: { from: undefined, to: undefined },
+      date_range: { from: startOfToday(), to: endOfMonth(new Date()) },
       is_active: true,
     },
   });
 
   const onSubmit = async (data: FormSchemaType) => {
-    try {
+   
       const { date_range, ...restData } = data;
       const couponData = {
         ...restData,
@@ -98,23 +120,23 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
         valid_to: date_range.to ? format(date_range.to, "yyyy-MM-dd") : null,
       };
 
-      // TODO: Implement API call to create coupon
-      console.log("Submitting coupon:", couponData);
-      await createCoupon(couponData);
-      toast.success(t("success.created"));
-      // router.push("/dashboard/coupons");
-    } catch (error) {
-      console.error("Error creating coupon:", error);
-      toast.error(t("error.create_failed"));
-    }
+     await createCoupon(couponData)
+        .unwrap()
+        .then(() => {
+          toast.success(t("success.created"));
+          form.reset();
+        })
+        .catch(() => {
+          toast.error(t("error.create_failed"));
+        });
   };
 
   return pre_loader ? (
-    <Skeleton className="!h-10 w-[125px]" />
+    <Skeleton className="!h-9 w-[125px]" />
   ) : (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="!h-10">{t("create_new")}</Button>
+        <Button className="!h-9">{t("create_new")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -124,19 +146,20 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 max-w-2xl"
+            className="space-y-6"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Code Field */}
               <Controller
                 name="code"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("code")} </FormLabel>
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-sm font-medium">{t("code")}</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} className="h-9" />
                     </FormControl>
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -146,8 +169,8 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
                 name="discount_type"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("discount_type")} </FormLabel>
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-sm font-medium">{t("discount_type")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -164,9 +187,6 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
                         <SelectItem value={DiscountType.FIXED}>
                           {t("fixed_amount")}
                         </SelectItem>
-                        <SelectItem value={DiscountType.FREE}>
-                          {t("free")}
-                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -178,14 +198,18 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
               <Controller
                 name="discount_value"
                 control={form.control}
-                disabled={form.watch("discount_type") === DiscountType.FREE}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("discount_value")} </FormLabel>
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-sm font-medium">{t("discount_value")}</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <div className="relative">
+                        <Input {...field} className="h-9 pl-8" />
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                          {form.watch("discount_type") === DiscountType.PERCENTAGE ? '%' : '$'}
+                        </span>
+                      </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -195,12 +219,12 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
                 name="max_uses"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("max_uses")} </FormLabel>
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-sm font-medium">{t("max_uses")}</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} className="h-9" />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -209,8 +233,8 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
                 name="date_range"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem className="col-span-2">
-                    <FormLabel>{t("valid_date")}</FormLabel>
+                  <FormItem className="col-span-2 space-y-1">
+                    <FormLabel className="text-sm font-medium">{t("valid_date")}</FormLabel>
                     <FormControl>
                       <CalendarDatePicker
                         date={field.value}
@@ -227,10 +251,13 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
                 name="is_active"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem className="col-span-2 flex flex-row items-center justify-between rounded-lg border border-primary h-10 p-2">
-                    <FormLabel className="text-base">
-                      {t("is_active")}
-                    </FormLabel>
+                  <FormItem className="col-span-2 flex flex-row items-center justify-between rounded-lg border p-3 bg-muted/30">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-sm font-medium">
+                        {t("is_active")}
+                      </FormLabel>
+                    
+                    </div>
                     <FormControl>
                       <Switch
                         className="!bg-transparent"
@@ -244,10 +271,12 @@ export default function CreateCoupon({ pre_loader }: { pre_loader: boolean }) {
             </div>
 
             <DialogFooter>
-              <DialogClose disabled={isLoading} onClick={() => form.reset()}>
-                {t("cancel")}
+              <DialogClose asChild>
+                <Button type="button" variant="outline" disabled={isLoading} onClick={() => form.reset()}>
+                  {t("cancel")}
+                </Button>
               </DialogClose>
-              <Button is_loading={isLoading} className="!h-10 !w-30">
+              <Button type="submit" is_loading={isLoading} className="h-9 min-w-[100px]">
                 {t("save")}
               </Button>
             </DialogFooter>

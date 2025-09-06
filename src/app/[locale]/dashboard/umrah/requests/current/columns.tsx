@@ -5,7 +5,7 @@ import {
   DataTableDateCell,
   DataTableSelectCell,
 } from "@/components/data-table/reuseable";
-import { CurrentUmrahRequest } from "@/interfaces/umrah";
+import { UmrahRequest } from "@/interfaces/umrah";
 import { formatPrice } from "@/lib/utils/price-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
@@ -17,7 +17,7 @@ export const useColumns = () => {
   const t = useTranslations("data_table");
   const { dir } = useDirLang();
   return useMemo(
-    (): ColumnDef<CurrentUmrahRequest>[] => [
+    (): ColumnDef<UmrahRequest>[] => [
       // {
       //   id: "select",
       //   header: ({ table }) => <DataTableCheckboxHeader table={table} />,
@@ -43,7 +43,11 @@ export const useColumns = () => {
         accessorKey: "created_by.username",
         header: t("seeker"),
         size: 150,
-        cell: ({ row }) => row.original.created_by?.username + " #" + row.original.created_by?.user_id + "",
+        cell: ({ row }) =>
+          row.original.created_by?.username +
+          " #" +
+          row.original.created_by?.user_id +
+          "",
         enableGlobalFilter: true,
       },
       {

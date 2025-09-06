@@ -12,6 +12,8 @@
   --color-foreground: var(--foreground);
   --font-cairo: var(--font-cairo);
   --font-rubik: var(--font-rubik);
+  --font-geist-sans: var(--font-geist-sans);
+  --font-almarai: var(--font-almarai);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -45,6 +47,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --header-height: calc(var(--spacing) * 14);
 }
 /* Main Color Palette
 1. Yellow Bright: #F2E205 => oklch(89.72% 0.189 104.36)
@@ -57,16 +60,16 @@
 /* old white oklch(1 0 0) */
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.9851 0 0);
+  --background: #fff;
   --foreground: oklch(15.91% 0 0); /* #0D0D0D */
 
-  --card: oklch(0.9851 0 0);
+  --card: #fff;
   --card-foreground: oklch(15.91% 0 0);
 
   --popover: oklch(0.9851 0 0);
   --popover-foreground: oklch(15.91% 0 0);
 
-  --primary: oklch(85.05% 0.174 94.84); /* #F2CB05 */
+  --primary: oklch(0.69 0.12 82.7);
 
   --primary-foreground: oklch(15.91% 0 0); /* black */
 
@@ -83,7 +86,7 @@
   --input: oklch(0.922 0 0);
   --ring: oklch(1 0 0 / 0);
 
-  --sidebar: oklch(0.9851 0 0);
+  --sidebar: oklch(98.5% 0.0013 286.84);
   --sidebar-foreground: oklch(15.91% 0 0);
   --sidebar-primary: oklch(89.72% 0.189 104.36);
   --sidebar-primary-foreground: oklch(15.91% 0 0);
@@ -91,6 +94,13 @@
   --sidebar-accent-foreground: oklch(15.91% 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --icon-bg: oklch(0.96 0.02 100);
+
+  --chart-1: oklch(0.69 0.12 82.7);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
 }
 
 .dark {
@@ -103,7 +113,7 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(1 0 0);
 
-  --primary: oklch(0.8505 0.174 94.84); /* #F2CB05 */
+  --primary: oklch(0.587, 0.13, 56.77); /* #F2CB05 */
   --primary-foreground: oklch(15.91% 0 0);
 
   --secondary: oklch(0.8114 0.166 84.96); /* #F2B705 */
@@ -119,7 +129,7 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
 
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: #000;
   --sidebar-foreground: oklch(1 0 0);
   --sidebar-primary: oklch(0.8505 0.174 94.84);
   --sidebar-primary-foreground: oklch(15.91% 0 0);
@@ -127,24 +137,82 @@
   --sidebar-accent-foreground: oklch(15.91% 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
 
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+}
+html {
+  scrollbar-width: none;
+}
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border ltr:font-geist-sans rtl:font-almarai;
   }
   body {
-    @apply bg-background text-foreground rtl:font-cairo ltr:font-rubik;
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  label,
+  button,
+  input,
+  textarea,
+  select,
+  a,
+  svg,
+  svg * {
+    @apply ltr:font-geist-sans rtl:font-almarai;
   }
 }
+.List {
+  border: 1px solid #e6e4dc;
+  max-width: 100%;
+}
 
+.ListItemEven,
+.ListItemOdd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ListItemEven {
+  background-color: #e6e4dc;
+}
 @layer components {
+  .main-font {
+    @apply ltr:font-geist-sans rtl:font-almarai;
+  }
+  .hidden-scrollbar {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &::-webkit-scrollbar-track {
+      display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
+  }
   .filter-logo {
     filter: brightness(0) invert(1);
   }
-  .container {
-    @apply mx-auto px-4;
+  .icon-container {
+    @apply size-10 bg-[var(--icon-bg)] rounded-full  flex justify-center items-center [&_svg]:stroke-2 [&_svg]:size-6 [&_svg]:!text-primary;
   }
+  /* .container {
+    @apply mx-auto !px-6;
+  } */
   .card {
     @apply p-2 bg-card rounded-lg drop-shadow-xl;
   }
