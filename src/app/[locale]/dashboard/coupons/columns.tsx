@@ -1,9 +1,7 @@
 "use client";
 import { DataTableChangeStatusCell } from "@/components/data-table/change-status-cell";
 import {
-  DataTableCheckboxHeader,
   DataTableDateCell,
-  DataTableSelectCell,
 } from "@/components/data-table/reuseable";
 import { Coupon } from "@/interfaces/coupon";
 import { ColumnDef } from "@tanstack/react-table";
@@ -19,14 +17,6 @@ export const useColumns = () => {
   const { dir } = useDirLang();
   return useMemo(
     (): ColumnDef<Coupon>[] => [
-      // {
-      //   id: "select",
-      //   header: ({ table }) => <DataTableCheckboxHeader table={table} />,
-      //   cell: ({ row }) => <DataTableSelectCell row={row} />,
-      //   size: 50,
-      //   enableSorting: false,
-      //   enableHiding: false,
-      // },
       {
         header: "#",
         accessorKey: "coupon_id",
@@ -36,7 +26,7 @@ export const useColumns = () => {
       {
         accessorKey: "created_at",
         header: t("created_at"),
-        size: 180,
+        size: 80,
         enableGlobalFilter: false,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },

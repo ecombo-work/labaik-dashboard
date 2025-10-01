@@ -37,6 +37,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Eye, EyeOff, LockKeyhole, Mail, UserIcon } from "lucide-react";
 import { userTypeToString } from "@/components/data-table/reuseable";
+import { useCreateEmployeeMutation } from "@/lib/apis/user";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   username: z.string().min(2).max(50),
@@ -47,6 +49,7 @@ const FormSchema = z.object({
 });
 type FormSchemaType = z.infer<typeof FormSchema>;
 function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
+  const [createEmployee, { isLoading }] = useCreateEmployeeMutation();
   const [showPassword, setShowPassword] = React.useState(false);
   const t = useTranslations("employees");
   const form = useForm<FormSchemaType>({
@@ -60,7 +63,19 @@ function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
     },
   });
   const onSubmit = (data: FormSchemaType) => {
-    console.log(data);
+    createEmployee(data)
+      .unwrap()
+      .then((res) => {
+        form.reset();
+        toast.success(res.message);
+      })
+      .catch((error) => {
+        error.data.errors?.forEach(
+          (error: { field: string; message: string[] }) => {
+            toast.error(error.message[0]);
+          }
+        );
+      });
   };
   return pre_loader ? (
     <Skeleton className="!h-9 w-[125px]" />
@@ -168,8 +183,7 @@ function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
                               type !== UserType.PERFORMER
                           )
                           .map((type) => {
-                          
-                              const userTypeKey = userTypeToString(type);
+                            const userTypeKey = userTypeToString(type);
                             return (
                               <SelectItem key={type} value={type}>
                                 {t(`roles.${userTypeKey}`)}
@@ -187,7 +201,13 @@ function AddEmployee({ pre_loader }: { pre_loader: boolean }) {
               <DialogClose onClick={() => form.reset()}>
                 {t("close")}
               </DialogClose>
-              <Button className="!h-9 !w-30">{t("save")}</Button>
+              <Button
+                className="!h-9 !w-30"
+                disabled={isLoading}
+                is_loading={isLoading}
+              >
+                {t("save")}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

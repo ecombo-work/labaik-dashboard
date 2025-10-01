@@ -15,39 +15,60 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+
 export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
+  const t = useTranslations("sidebar");
   const pathname = usePathname();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  // 🔹 normalize current path (remove locale + /dashboard prefix)
+  function normalizePath(path: string): string {
+    const clean = path.split("?")[0].split("#")[0];
+    const segments = clean.split("/").filter(Boolean);
+
+    if (["ar", "en"].includes(segments[0])) {
+      segments.shift(); // remove locale
+    }
+    if (segments[0] === "dashboard") {
+      segments.shift(); // remove dashboard
+    }
+
+    return "/" + segments.join("/");
+  }
+
+  const normalizedPath = normalizePath(pathname);
+
+  function isActivePath(path: string, itemUrl: string): boolean {
+    const cleanItemUrl = itemUrl.split("?")[0];
+    const normalizedItemUrl = "/" + cleanItemUrl;
+
+    return (
+      path === normalizedItemUrl || path.startsWith(normalizedItemUrl + "/")
+    );
+  }
 
   return (
     <SidebarMenu>
       {items?.map((item, idx) => {
-        const normalize = (path: string) => {
-          // Remove query params before normalization
-          const cleanPath = path.split("?")[0];
-          const normalized = `/dashboard/${cleanPath}`.replace(
-            /^\/+|\/+$/g,
-            ""
-          );
-          return `/${normalized}`;
-        };
+        const itemPath = "/dashboard/" + item.url;
 
         const isSubActive = item.items?.some((sub) =>
-          pathname.startsWith(normalize(sub.url))
+          isActivePath(normalizedPath, sub.url)
         );
-
         const isItemActive =
-          pathname === normalize(item.url) ||
-          pathname.startsWith(`${normalize(item.url)}/`) ||
-          isSubActive;
+          isActivePath(normalizedPath, item.url) || isSubActive;
 
-        const shouldDefaultOpen = isSubActive;
+        const isOpen = openIndex === idx || isSubActive;
+
         return (
           <Collapsible
             key={idx}
             asChild
-            defaultOpen={shouldDefaultOpen}
+            open={isOpen}
+            onOpenChange={(open) => setOpenIndex(open ? idx : null)}
             className="group/collapsible"
           >
             {item.items?.length ? (
@@ -58,17 +79,19 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
                     className="cursor-pointer w-full flex items-center gap-3 justify-start"
                   >
                     <item.icon />
-                    <p className="text-base">{item.title}</p>
+                    <p className="text-base">{t(item.title_key)}</p>
                     <ChevronRight className="!size-4 ltr:ml-auto rtl:mr-auto transition-transform duration-200 rtl:group-data-[state=closed]/collapsible:rotate-180 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
+
                 <CollapsibleContent>
-                  <SidebarMenuSub className="CollapsibleContent">
-                    {item.items?.map((sub, idx) => {
-                      const subPath = normalize(sub.url);
-                      const isSubActive = subPath === pathname;
+                  <SidebarMenuSub>
+                    {item.items?.map((sub, subIdx) => {
+                      const subPath = "/dashboard/" + sub.url;
+                      const isSubActive = isActivePath(normalizedPath, sub.url);
+
                       return (
-                        <SidebarMenuSubItem key={idx}>
+                        <SidebarMenuSubItem key={subIdx}>
                           <SidebarMenuSubButton
                             isActive={isSubActive}
                             size="sm"
@@ -78,7 +101,7 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
                               href={subPath}
                               className="relative w-full flex justify-between"
                             >
-                              <p className="">{sub.title}</p>
+                              <p>{t(sub.title_key)}</p>
                               {sub.count && (
                                 <SidebarMenuBadge>{sub.count}</SidebarMenuBadge>
                               )}
@@ -94,12 +117,12 @@ export function SidebarMenuItems({ items }: { items: IMenuItem[] }) {
               <SidebarMenuItem>
                 <SidebarMenuButton isActive={isItemActive} asChild>
                   <Link
-                    href={normalize(item.url)}
+                    href={itemPath}
                     className="w-full flex items-center gap-3 justify-between"
                   >
                     <item.icon />
                     <span className="flex items-center justify-between w-full">
-                      <p className="text-base">{item.title}</p>
+                      <p className="text-base">{t(item.title_key)}</p>
                       {item.count && (
                         <SidebarMenuBadge>{item.count}</SidebarMenuBadge>
                       )}

@@ -1,9 +1,6 @@
 "use client";
-
 import * as React from "react";
-
 import { Calendar } from "@/components/ui/calendar";
-
 import {
   Popover,
   PopoverContent,
@@ -11,16 +8,16 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { formatDate } from "date-fns";
-import { Field, FieldElement } from "react-hook-form";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 export default function SingleDateCalendar({
   value,
   onChange,
+  placeholder,
   ...props
 }: {
   value: Date;
   onChange: (value: Date) => void;
+  placeholder?: string;
 }) {
   return (
     <Popover>
@@ -28,10 +25,14 @@ export default function SingleDateCalendar({
         <Button
           variant="outline"
           type="button"
-          className="!h-9 w-full hover:bg-transparent flex items-center !justify-between border border-primary"
+          className="!flex !shadow-none !items-center !justify-start gap-2 bg-transparent hover:bg-transparent border !px-2"
         >
-          {value && formatDate(value, "yyyy-MM-dd")}
-          <CalendarIcon className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
+          <CalendarIcon className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
+          {value ? (
+            formatDate(value, "yyyy-MM-dd")
+          ) : (
+            <p className="opacity-50">{placeholder}</p>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -40,8 +41,8 @@ export default function SingleDateCalendar({
           defaultMonth={value}
           selected={value}
           onSelect={onChange}
-          className="rounded-lg border shadow-sm"
-          captionLayout="dropdown"
+          // className="rounded-lg border shadow-sm"
+          // captionLayout="dropdown"
           required
           {...props}
         />

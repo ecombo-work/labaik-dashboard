@@ -60,6 +60,16 @@ export const reportsApi = createApi({
         params,
       }),
     }),
+    countryReport: builder.query<
+      ApiResponse<any>,
+      ReportQueryParams
+    >({
+      query: (params) => ({
+        url: "/reports/country",
+        method: "GET",
+        params,
+      }),
+    }),
   }),
 });
 export const {
@@ -68,4 +78,5 @@ export const {
   usePerformersReportQuery,
   useIncomeReportQuery,
   useExpenseReportQuery,
+  useCountryReportQuery,
 } = reportsApi;

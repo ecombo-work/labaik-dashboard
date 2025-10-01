@@ -3,7 +3,8 @@ import { Locale } from "date-fns";
 // Our custom event type for calendar events
 export interface CalendarEvent {
   notification_id: number;
-  title: string;
+  title_ar: string;
+  title_en: string;
   scheduled_at: string;
 }
 
@@ -19,8 +20,11 @@ export interface CalendarBaseProps {
   formatDayNumber: (date: Date) => string;
   onAddNotification?: (notification: {
     day: Date;
-    title: string;
-    description?: string;
-    time: Date;
+    title_ar: string;
+    title_en: string;
+    message_ar: string;
+    message_en: string;
+    receiver: "performers" | "seekers" | "employees" | "all";
+    scheduledAt: Date;
   }) => void;
 }

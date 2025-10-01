@@ -29,7 +29,7 @@ function DataTableActions<TData>({
             placeholder={t("fast_search")}
             value={(table.getState().globalFilter as string) ?? ""}
             onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className="h-8  !text-xs !w-[220px]"
+            className="h-9 rounded-md !text-xs !w-[220px]"
             disabled={is_loading}
           />
         )}

@@ -20,7 +20,7 @@ import { Eye, EyeOff, Languages, LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { useLoginMutation } from "@/lib/apis/auth";
+import { useGetCurrentUserQuery, useLoginMutation } from "@/lib/apis/auth";
 import { toast } from "sonner";
 import { UserType } from "@/lib/roles";
 import { PushNotificationsContext } from "@/providers/notifications-provider";
@@ -29,6 +29,7 @@ import Image from "next/image";
 // const labaik_ar = "/labaik_ar.png";
 export default function Page() {
   const [login, { isLoading }] = useLoginMutation();
+  const { refetch } = useGetCurrentUserQuery();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const { fcmToken } = useContext(PushNotificationsContext);
   const t = useTranslations("auth.login");
@@ -43,20 +44,20 @@ export default function Page() {
     reValidateMode: "onSubmit",
     shouldFocusError: true,
     defaultValues: {
-      // phone_number:"+966563512274",
-      // password:"Admin@123!",
-      phone_number: "+201000000001",
-      password: "SecurePa$$123!",
+      phone_number: "",
+      password: "",
+      // phone_number: "+201000000001",
+      // password: "SecurePa$$123!",
     },
   });
-
+  // 201000000001;
+  // SecurePa$$123!
   const onSubmit = async (form_data: LoginInputs) => {
     try {
       const { data } = await login({
         ...form_data,
         fcm_token: fcmToken,
       }).unwrap();
-      console.log("login", data);
       const user_type = data?.user_type;
       let redirect_path = "error/unauthorized";
       if ([UserType.ADMIN, UserType.SUPER_ADMIN].includes(user_type!)) {
@@ -66,6 +67,9 @@ export default function Page() {
         redirect_path = "/dashboard/umrah-requests/current-requests";
       }
       router.push(redirect_path);
+      refetch()
+        .unwrap()
+        .then(() => router.refresh());
       toast.success(t("success"));
     } catch (err: any) {
       toast.error(err.data?.message);

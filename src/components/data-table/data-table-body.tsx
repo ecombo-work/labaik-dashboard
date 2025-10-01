@@ -3,6 +3,7 @@ import { TableBody, TableCell, TableRow } from "../ui/table";
 import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
 import { Skeleton } from "../ui/skeleton";
 import { NoDataIcon } from "../svgs/no-data";
+import Image from "next/image";
 
 interface DataTableBodyProps<TData, TValue> {
   table: Table<TData>;
@@ -35,8 +36,14 @@ function DataTableBody<TData, TValue>({
     return (
       <TableBody>
         <TableRow>
-          <TableCell colSpan={columns.length} className="h-24 text-center">
-            <NoDataIcon className="mx-auto w-[350px] h-[350px]" />
+          <TableCell colSpan={columns.length} className="h-96 mx-auto">
+            <Image
+              src="/empty.png"
+              alt="no-data"
+              className="mx-auto"
+              width={150}
+              height={150}
+            />
           </TableCell>
         </TableRow>
       </TableBody>
@@ -46,7 +53,11 @@ function DataTableBody<TData, TValue>({
   return (
     <TableBody>
       {table.getRowModel().rows.map((row) => (
-        <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : undefined}>
+        <TableRow
+          key={row.id}
+          data-state={row.getIsSelected() ? "selected" : undefined}
+          className="h-11"
+        >
           {row.getVisibleCells().map((cell) => (
             <TableCell key={cell.id} className="text-center">
               {flexRender(cell.column.columnDef.cell, cell.getContext())}

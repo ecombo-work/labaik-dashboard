@@ -1,10 +1,11 @@
 "use client";
 import { DataTable } from "@/components/data-table";
-import { Title } from "@/components/ui/typography";
 import { useGetNeedReviewPerformersQuery } from "@/lib/apis/user";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
 import { useTranslations } from "next-intl";
 import { useColumns } from "./columns";
+import ReviewSearchForm from "./search-form";
+import PageHeader from "@/components/page-header";
 
 export default function Page() {
   const columns = useColumns();
@@ -23,9 +24,12 @@ export default function Page() {
     );
   return (
     <>
-      <div className="flex justify-between items-center">
+      <PageHeader title="review_needed">
+        <ReviewSearchForm />
+      </PageHeader>
+      {/* <div className="flex justify-between items-center">
         <Title>{t("review_needed")}</Title>
-      </div>
+      </div> */}
 
       <DataTable
         columns={columns}

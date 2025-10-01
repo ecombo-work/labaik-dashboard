@@ -25,7 +25,7 @@ export const baseQueryWithToast: typeof baseQuery = async (
         api,
         extraOptions
       );
-      window.location.href = "login";
+      window.location.href = "/ar/login";
     } else if (error.status === 403) {
       errorMessage = "You don't have permission to perform this action";
       toast.error(errorMessage);

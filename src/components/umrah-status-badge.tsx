@@ -41,8 +41,8 @@ export const statusColors: Record<UmrahStatus, string> = {
     "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200",
 
   // Neutral/Expired
-  [UmrahStatus.REQUEST_EXPIRED]:
-    "bg-zinc-100 text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200",
+  // [UmrahStatus.REQUEST_EXPIRED]:
+  //   "bg-zinc-100 text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200",
 };
 
 export const getStatusKey = (status: UmrahStatus) => {
@@ -58,7 +58,7 @@ function UmrahStatusBadge({ status }: { status: UmrahStatus }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium transition",
+        "inline-flex items-center rounded-full px-2 py-1 text-sm font-medium transition",
         statusColors[status]
       )}
     >

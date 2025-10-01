@@ -20,6 +20,7 @@ export const useColumns = () => {
       {
         accessorKey: "created_at",
         header: t("created_at"),
+        size: 80,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },
       {

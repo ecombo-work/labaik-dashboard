@@ -12,6 +12,7 @@ import {
   PaginationEllipsis,
 } from "../ui/pagination";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface DataTablePaginationProps {
   table: Table<any>;
@@ -98,32 +99,31 @@ function DataTablePagination({
   };
 
   return (
-    <div className="flex items-center justify-between w-full">
-      
+    <div className="flex items-center justify-between w-full px-2 py-2">
       <Pagination className="justify-end">
         <PaginationContent>
           <PaginationItem>
-            <div 
+            <div
               onClick={() => {
                 if (currentPage > 1 && !loading) {
                   handlePageChange(currentPage - 1);
                 }
               }}
               className={`cursor-pointer ${
-                currentPage <= 1 || loading 
-                  ? "opacity-50 pointer-events-none" 
+                currentPage <= 1 || loading
+                  ? "opacity-50 pointer-events-none"
                   : ""
               }`}
             >
-              <PaginationPrevious 
-                href="#" 
+              <PaginationPrevious
+                href="#"
                 onClick={(e) => e.preventDefault()}
               />
             </div>
           </PaginationItem>
 
           {getPageNumbers().map((page, index) => {
-            if (page === '...') {
+            if (page === "...") {
               return (
                 <PaginationItem key={`ellipsis-${index}`}>
                   <PaginationEllipsis />
@@ -141,7 +141,10 @@ function DataTablePagination({
                     handlePageChange(pageNum);
                   }}
                   isActive={currentPage === pageNum}
-                  className={currentPage === pageNum ? 'font-bold' : 'cursor-pointer'}
+                  className={cn(
+                    currentPage === pageNum ? "font-bold" : "cursor-pointer",
+                    "rounded-full"
+                  )}
                 >
                   {pageNum}
                 </PaginationLink>
@@ -150,22 +153,19 @@ function DataTablePagination({
           })}
 
           <PaginationItem>
-            <div 
+            <div
               onClick={() => {
                 if (currentPage < totalPages && !loading) {
                   handlePageChange(currentPage + 1);
                 }
               }}
               className={`cursor-pointer ${
-                currentPage >= totalPages || loading 
-                  ? "opacity-50 pointer-events-none" 
+                currentPage >= totalPages || loading
+                  ? "opacity-50 pointer-events-none"
                   : ""
               }`}
             >
-              <PaginationNext 
-                href="#" 
-                onClick={(e) => e.preventDefault()}
-              />
+              <PaginationNext href="#" onClick={(e) => e.preventDefault()} />
             </div>
           </PaginationItem>
         </PaginationContent>

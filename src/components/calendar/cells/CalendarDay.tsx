@@ -1,11 +1,14 @@
 import { format, isEqual, isSameDay, isSameMonth, isToday } from "date-fns";
 import { cn } from "@/lib/utils";
-import { CalendarBaseProps, CalendarEvent } from "./types";
-import { EventIndicator } from "./EventIndicator";
+import { CalendarBaseProps, CalendarEvent } from "../types";
+
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Bell } from "lucide-react";
 import { useState } from "react";
-import { NotificationDialog } from "./NotificationDialog";
+import { NotificationDialog } from "../dialogs/NotificationDialog";
+import { EventIndicator } from "./EventIndicator";
+import { useDirLang } from "@/hooks/use-dir-lang";
+import DayEventDialog from "../dialogs/DayEventDialog";
 
 interface CalendarDayProps extends CalendarBaseProps {
   day: Date;
@@ -15,10 +18,14 @@ interface CalendarDayProps extends CalendarBaseProps {
   onClick: () => void;
   isMobile?: boolean;
   onAddNotification?: (notification: {
-    title: string;
-    description?: string;
-    time: Date;
+    title_ar: string;
+    title_en: string;
+    message_ar: string;
+    message_en: string;
+    receiver: "performers" | "seekers" | "employees" | "all";
+    scheduledAt: Date;
   }) => void;
+  canAddNotification?: boolean;
 }
 
 export function CalendarDay({
@@ -33,40 +40,33 @@ export function CalendarDay({
   isRTL,
   formatDayNumber,
   onAddNotification,
+  canAddNotification,
 }: CalendarDayProps) {
+  const { lang } = useDirLang();
   const has_notifications = dayEvents.length > 0;
   const dayNumber = formatDayNumber(day);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] =
     useState(false);
 
-    const handleAddNotification = (data: {
-      title: string;
-      message: string;
-      receiver: 'performers' | 'seekers' | 'employees';
-      scheduledAt: Date;
-    }) => {
-      if (onAddNotification) {
-        onAddNotification({
-          title: data.title,
-          description: data.message, 
-          time: data.scheduledAt     
-        });
-      }
-    };
-
-  const renderNotificationButton = () => (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="h-5 w-5 text-muted-foreground hover:text-foreground"
-      onClick={(e) => {
-        e.stopPropagation();
-        setIsNotificationDialogOpen(true);
-      }}
-    >
-      <PlusCircle className="h-4 w-4" />
-    </Button>
-  );
+  const handleAddNotification = (data: {
+    title_ar: string;
+    title_en: string;
+    message_ar: string;
+    message_en: string;
+    receiver: "performers" | "seekers" | "employees" | "all";
+    scheduledAt: Date;
+  }) => {
+    if (onAddNotification) {
+      onAddNotification({
+        title_ar: data.title_ar,
+        title_en: data.title_en,
+        message_ar: data.message_ar,
+        message_en: data.message_en,
+        receiver: data.receiver,
+        scheduledAt: data.scheduledAt,
+      });
+    }
+  };
 
   if (isMobile) {
     return (
@@ -111,7 +111,7 @@ export function CalendarDay({
                     "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200"
                   )}
                 >
-                  {event.title}
+                  {lang === "ar" ? event.title_ar : event.title_en}
                 </div>
               ))}
               {dayEvents.length > 2 && (
@@ -143,7 +143,7 @@ export function CalendarDay({
       </div>
     );
   }
-
+  console.log("dayEvents", dayEvents);
   return (
     <div
       onClick={onClick}
@@ -152,7 +152,7 @@ export function CalendarDay({
           !isToday(day) &&
           !isSameMonth(day, firstDayCurrentMonth) &&
           "bg-accent/10 text-muted-foreground",
-        "relative flex flex-col border-b ltr:border-r rtl:border-l hover:bg-muted focus:z-10",
+        "relative flex flex-col border-t border-l hover:bg-muted focus:z-10",
         !isEqual(day, selectedDay) && "hover:bg-accent/75",
         "group"
       )}
@@ -183,32 +183,50 @@ export function CalendarDay({
           <time
             dateTime={format(day, "yyyy-MM-dd")}
             className={cn(
+              "flex h-8 w-8 items-center justify-center rounded-full text-xs transition-all duration-200",
+              // Today (not selected)
+              isToday(day) &&
+                !isEqual(day, selectedDay) &&
+                "border border-primary text-primary bg-primary/10",
+              // Selected day
+              isEqual(day, selectedDay) &&
+                "bg-primary text-primary-foreground shadow-sm",
+              // Selected + Today
               isEqual(day, selectedDay) &&
                 isToday(day) &&
-                "text-primary-foreground",
-              !isEqual(day, selectedDay) && isToday(day) && "text-primary"
+                "ring-2 ring-offset-2 ring-primary",
+              // Days outside current month
+              !isSameMonth(day, firstDayCurrentMonth) &&
+                "text-muted-foreground opacity-60",
+              // Hover effect
+              "hover:bg-accent hover:text-accent-foreground"
             )}
           >
             {dayNumber}
+            {has_notifications && (
+              <span className="absolute bottom-0.5 h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+            )}
           </time>
         </button>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsNotificationDialogOpen(true);
-          }}
-          variant="ghost"
-          size="icon"
-          className="rounded-full"
-        >
-          <PlusCircle className="h-4 w-4 text-black" />
-        </Button>
+        {canAddNotification && (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsNotificationDialogOpen(true);
+            }}
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+          >
+            <PlusCircle className="h-4 w-4 text-black" />
+          </Button>
+        )}
       </header>
       <div className="flex-1 p-2.5 flex flex-col">
         <div className="flex-1">
           {has_notifications && (
             <>
-              {dayEvents.slice(0, 2).map((event) => (
+              {dayEvents.slice(0, 1).map((event) => (
                 <div
                   key={event.notification_id}
                   className={cn(
@@ -218,20 +236,21 @@ export function CalendarDay({
                   )}
                 >
                   <div className="flex items-center w-full">
-                      <Bell className="h-3 w-3 ltr:mr-1 rtl:ml-1 flex-shrink-0 text-blue-500" />
+                    <Bell className="h-3 w-3 ltr:mr-1 rtl:ml-1 flex-shrink-0 text-blue-500" />
                     <p className="font-medium leading-none truncate">
-                      {event.title}
+                      {lang === "ar" ? event.title_ar : event.title_en}
                     </p>
                   </div>
                   <p className="leading-none text-muted-foreground text-[11px]">
-                    {event.scheduled_at}
+                    {format(new Date(event.scheduled_at), "h:mm a")}
                   </p>
                 </div>
               ))}
-              {dayEvents.length > 2 && (
-                <div className="text-xs text-muted-foreground text-right mt-1">
-                  + {dayEvents.length - 2} more
-                </div>
+              {dayEvents.length > 1 && (
+                <DayEventDialog
+                  length={dayEvents.length - 1}
+                  dayEvents={dayEvents}
+                />
               )}
             </>
           )}

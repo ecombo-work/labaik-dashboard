@@ -8,6 +8,8 @@ import { useColumns } from "./columns";
 import React from "react";
 import AddEmployee from "./add-employee";
 import { useTranslations } from "next-intl";
+import PageHeader from "@/components/page-header";
+import EmployeesSearchForm from "./search-form";
 
 export default function Page() {
   const t = useTranslations("page_title");
@@ -26,9 +28,12 @@ export default function Page() {
     );
   return (
     <React.Fragment>
-      <div className="flex justify-between items-center">
+      <PageHeader title="employees">
+        <EmployeesSearchForm />
+      </PageHeader>
+      {/* <div className="flex justify-between items-center">
         <Title>{t('employees')}</Title>
-      </div>
+      </div> */}
       <DataTable
         columns={columns}
         data={data?.data?.items}

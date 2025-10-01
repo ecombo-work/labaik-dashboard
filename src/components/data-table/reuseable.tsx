@@ -1,6 +1,6 @@
 "use client";
 import { Column, Row, Table } from "@tanstack/react-table";
-
+import { TZDate } from "@date-fns/tz";
 import { JSX } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { formatPhone } from "@/lib/utils/international-phone";
@@ -10,6 +10,7 @@ import { formatDate } from "@/lib/utils/date-utils";
 import { CountryCode } from "libphonenumber-js";
 import { UserType } from "@/lib/roles";
 import { WithdrawalMethod, WithdrawalStatus } from "@/constants/withdrawal";
+import { format } from "date-fns";
 
 interface DataTableCheckboxHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -32,7 +33,22 @@ export function DataTableCheckboxHeader<TData, TValue>({
     </div>
   );
 }
-
+export function DataTableUserCell({
+  accessorKey,
+  id_key,
+}: {
+  accessorKey: string;
+  id_key: string;
+}): JSX.Element {
+  return (
+    <div className="leading-5">
+      <p>
+        #{id_key}{" "}
+        {accessorKey}
+      </p>
+    </div>
+  );
+}
 export function DataTableSelectCell<TData, TValue>({
   row,
 }: {
@@ -76,10 +92,12 @@ export function DataTableCountryNameCell<TData, TValue>({
 }
 // format date
 export function DataTableDateCell<TData, TValue>({ row }: { row: Row<TData> }) {
+  const rawDate = row.getValue("created_at") as Date;
+  const ts_date = new TZDate(rawDate, "Asia/Riyadh");
   return (
-    <p className="flex items-center justify-center">
-      {formatDate(row.getValue("created_at"))}
-    </p>
+    <div className="leading-normal">
+      <p>{format(ts_date, "yyyy-MM-dd hh:mm a")}</p>
+    </div>
   );
 }
 // Map of UserType enum values to their string keys

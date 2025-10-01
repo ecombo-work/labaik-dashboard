@@ -1,13 +1,14 @@
+import BackToTop from "@/components/back-to-top";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {  UserType } from "@/lib/roles";
+import { UserType } from "@/lib/roles";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-;
+import { redirect } from "next/navigation";
 export async function generateMetadata({
   params,
 }: {
@@ -30,7 +31,12 @@ export default async function Layout({
 }) {
   const locale = (await params).locale;
   const cookieStore = await cookies();
-  const user_type = cookieStore.get("USER_TYPE")?.value as unknown as UserType;
+  const user_type = cookieStore.get("USER_TYPE")?.value as UserType;
+  const access_token = cookieStore.get("ACCESS_TOKEN")?.value;
+  const JWTID = cookieStore.get("JWTID")?.value;
+  if (!access_token || !JWTID || !user_type) {
+    redirect(`/${locale}/login`);
+  }
   return (
     <SidebarProvider>
       {/* <WaveBg /> */}
@@ -42,6 +48,7 @@ export default async function Layout({
           </div>
         </header>
         <div className="flex flex-1 flex-col">
+          <BackToTop />
           <div className="@container/main p-4 xl:group-data-[theme-content-layout=centered]/layout:container xl:group-data-[theme-content-layout=centered]/layout:mx-auto">
             {children}
           </div>

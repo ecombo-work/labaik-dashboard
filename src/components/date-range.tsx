@@ -64,12 +64,15 @@ interface CalendarDatePickerProps
     VariantProps<typeof multiSelectVariants> {
   id?: string;
   className?: string;
-  date: DateRange;
+  date?: DateRange;
   closeOnSelect?: boolean;
   numberOfMonths?: 1 | 2;
   yearsRange?: number;
+  old_disabled?: boolean;
+  align?: "center" | "end" | "start";
   onDateSelect: (range: { from: Date | null; to: Date | null }) => void;
   onSave?: () => void;
+  placeholder?: string;
 }
 
 export const CalendarDatePicker = React.forwardRef<
@@ -84,6 +87,9 @@ export const CalendarDatePicker = React.forwardRef<
       closeOnSelect = false,
       numberOfMonths = 2,
       yearsRange = 10,
+      old_disabled = false,
+      align = "end",
+      placeholder,
       onDateSelect,
       variant,
       onSave,
@@ -151,7 +157,7 @@ export const CalendarDatePicker = React.forwardRef<
         let from = startOfDay(toDate(range.from as Date, { timeZone }));
         let to = range.to ? endOfDay(toDate(range.to, { timeZone })) : from;
         if (numberOfMonths === 1) {
-          if (range.from !== date.from) {
+          if (range.from !== date?.from) {
             to = from;
           } else {
             from = startOfDay(toDate(range.to as Date, { timeZone }));
@@ -184,21 +190,21 @@ export const CalendarDatePicker = React.forwardRef<
               : newMonth;
           const to =
             numberOfMonths === 2
-              ? date.to
+              ? date?.to
                 ? endOfDay(toDate(date.to, { timeZone }))
                 : endOfMonth(toDate(newMonth, { timeZone }))
               : from;
           if (from <= to) {
             onDateSelect({ from, to });
             setMonthFrom(newMonth);
-            setMonthTo(date.to);
+            setMonthTo(date?.to);
           }
         }
       } else {
         if (yearTo !== undefined) {
           if (newMonthIndex < 0 || newMonthIndex > yearsRange + 1) return;
           const newMonth = new Date(yearTo, newMonthIndex, 1);
-          const from = date.from
+          const from = date?.from
             ? startOfDay(toDate(date.from, { timeZone }))
             : startOfMonth(toDate(newMonth, { timeZone }));
           const to =
@@ -208,7 +214,7 @@ export const CalendarDatePicker = React.forwardRef<
           if (from <= to) {
             onDateSelect({ from, to });
             setMonthTo(newMonth);
-            setMonthFrom(date.from);
+            setMonthFrom(date?.from);
           }
         }
       }
@@ -331,15 +337,15 @@ export const CalendarDatePicker = React.forwardRef<
       event.preventDefault();
       setSelectedRange(null);
       if (highlightedPart === "firstDay") {
-        const newDate = new Date(date.from as Date);
+        const newDate = new Date(date?.from as Date);
         const increment = event.deltaY > 0 ? -1 : 1;
         newDate.setDate(newDate.getDate() + increment);
-        if (newDate <= (date.to as Date)) {
+        if (newDate <= (date?.to as Date)) {
           numberOfMonths === 2
-            ? onDateSelect({ from: newDate, to: new Date(date.to as Date) })
+            ? onDateSelect({ from: newDate, to: new Date(date?.to as Date) })
             : onDateSelect({ from: newDate, to: newDate });
           setMonthFrom(newDate);
-        } else if (newDate > (date.to as Date) && numberOfMonths === 1) {
+        } else if (newDate > (date?.to as Date) && numberOfMonths === 1) {
           onDateSelect({ from: newDate, to: newDate });
           setMonthFrom(newDate);
         }
@@ -351,11 +357,11 @@ export const CalendarDatePicker = React.forwardRef<
         const newYear = yearFrom + (event.deltaY > 0 ? -1 : 1);
         handleYearChange(newYear, "from");
       } else if (highlightedPart === "secondDay") {
-        const newDate = new Date(date.to as Date);
+        const newDate = new Date(date?.to as Date);
         const increment = event.deltaY > 0 ? -1 : 1;
         newDate.setDate(newDate.getDate() + increment);
-        if (newDate >= (date.from as Date)) {
-          onDateSelect({ from: new Date(date.from as Date), to: newDate });
+        if (newDate >= (date?.from as Date)) {
+          onDateSelect({ from: new Date(date?.from as Date), to: newDate });
           setMonthTo(newDate);
         }
       } else if (highlightedPart === "secondMonth") {
@@ -440,19 +446,20 @@ export const CalendarDatePicker = React.forwardRef<
               onClick={handleTogglePopover}
               suppressHydrationWarning
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
+
               <span className="text-sm">
                 {date && date.from ? (
                   date.to ? (
-                    <span
+                    <span 
                       className="date-part"
                       dir={locale === "ar" ? "rtl" : "ltr"}
                     >
-                      {formatWithTz(date.from, "dd MMM yyyy")}
+                      {formatWithTz(date.from, "dd-MM-yyyy")}
                       {numberOfMonths === 2 && (
                         <>
-                          {" - "}
-                          {formatWithTz(date.to, "dd MMM yyyy")}
+                          {" / "}
+                          {formatWithTz(date.to, "dd-MM-yyyy")}
                         </>
                       )}
                     </span>
@@ -471,14 +478,16 @@ export const CalendarDatePicker = React.forwardRef<
                       // t('pickDate')
                     }
                   </span>
-                ) : null}
+                ) : (
+                  <p className="opacity-50">{placeholder}</p>
+                )}
               </span>
             </Button>
           </PopoverTrigger>
           {isOpen && (
             <PopoverContent
               className="w-auto"
-              align="end"
+              align={align}
               avoidCollisions={false}
               onInteractOutside={handleClose}
               onEscapeKeyDown={handleClose}
@@ -606,9 +615,13 @@ export const CalendarDatePicker = React.forwardRef<
                       selected={date}
                       onSelect={handleDateSelect}
                       numberOfMonths={numberOfMonths}
-                      disabled={(currentDate) => {
-                        return currentDate < subDays(new Date(), 1);
-                      }}
+                      disabled={
+                        old_disabled
+                          ? (currentDate) => {
+                              return currentDate < subDays(new Date(), 1);
+                            }
+                          : undefined
+                      }
                       dir={locale === "ar" ? "rtl" : "ltr"}
                       locale={dateFnsLocale}
                       className="rtl:font-['Cairo']"

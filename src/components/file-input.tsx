@@ -13,6 +13,7 @@ interface FileInputProps {
   disabled?: boolean;
   accept?: string;
   dimensions?: string;
+  image_class?: string;
   default_value?: string;
 }
 
@@ -23,6 +24,7 @@ const FileInput = ({
   disabled,
   accept,
   dimensions,
+  image_class,
   default_value,
 }: FileInputProps) => {
   const t = useTranslations("file_input");
@@ -60,13 +62,13 @@ const FileInput = ({
     handleFileSelection(null);
     if (inputRef.current) inputRef.current.value = "";
   };
- console.log(default_value)  
+  console.log(default_value);
   const fileUrl = default_value
     ? default_value
     : value
     ? URL.createObjectURL(value)
     : "";
-    console.log(fileUrl);
+  console.log(fileUrl);
   return (
     <div className={cn("space-y-2", className)}>
       <div
@@ -78,8 +80,8 @@ const FileInput = ({
           "relative cursor-pointer rounded-lg border border-dashed border-primary p-1 text-center transition-colors hover:bg-muted/50",
           isDragging && "border-muted-foreground/50 bg-muted/50",
           disabled && "cursor-not-allowed opacity-60",
-          dimensions && dimensions,
-          "flex items-center justify-center"
+          "flex items-center justify-center ",
+          className 
         )}
         role="button"
         tabIndex={0}
@@ -99,20 +101,20 @@ const FileInput = ({
             <Image
               src={fileUrl}
               width={350}
-              height={600}
+              height={500}
               alt=""
-              className="w-full h-full object-contain rounded-lg"
+              className={`w-full h-full object-contain rounded-lg ${image_class}`}
             />
           </div>
         )}
         {default_value && (
-            <Image
-              src={fileUrl}
-              width={350}
-              height={600}
-              alt=""
-              className="w-full h-full object-contain rounded-lg"
-            />
+          <Image
+            src={fileUrl}
+            width={350}
+            height={500}
+            alt=""
+            className={`w-full h-full object-contain rounded-lg ${image_class}`}
+          />
         )}
         {!value && !default_value && (
           <span>

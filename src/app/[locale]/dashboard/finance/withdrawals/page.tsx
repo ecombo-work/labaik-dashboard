@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
 import { Title } from "@/components/ui/typography";
 import { DataTable } from "@/components/data-table";
+import PageHeader from "@/components/page-header";
+import WithdrawalsSearchForm from "./search";
 
 function Page() {
   const columns = useColumns();
@@ -20,7 +22,9 @@ function Page() {
   });
   return (
     <React.Fragment>
-      <Title>{t("withdrawals")}</Title>
+    <PageHeader title={"withdrawals"}>
+      <WithdrawalsSearchForm />
+    </PageHeader>
       <DataTable
         columns={columns}
         data={data?.data?.items}

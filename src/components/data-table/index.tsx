@@ -142,10 +142,9 @@ export function DataTable<TData, TValue>({
       </div>
     );
   }
-  console.log(table.getRowModel().rows.length);
   return (
     <div className={cn("space-y-4   w-full", className)}>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <DataTableActions
           table={table}
           t={t}
@@ -159,20 +158,12 @@ export function DataTable<TData, TValue>({
       <div className="bg-card border border-gray-200 rounded-xl">
         <Table className="rounded-xl">
           <DataTableHeader table={table} is_loading={loading} />
-          <DataTableBody
-            table={table}
-            columns={columns}
-            is_loading={loading}
-          />
+          <DataTableBody table={table} columns={columns} is_loading={loading} />
         </Table>
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-1 px-2">
-          <SelectedRows table={table} t={t} />
-          <DataTablePagination
-            table={table}
-            meta={meta}
-            onPageChange={setPage}
-          />
-        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <SelectedRows table={table} t={t} />
+        <DataTablePagination table={table} meta={meta} onPageChange={setPage} />
       </div>
     </div>
   );

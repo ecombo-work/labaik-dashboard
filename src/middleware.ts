@@ -12,49 +12,49 @@ function isAuthorizedPath(pathname: string, allowedPaths: string[]) {
   );
 }
 export default function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
-  const access_token = request.cookies.get("ACCESS_TOKEN")?.value;
-  const user_type = request.cookies.get("USER_TYPE")?.value as UserType;
-  const locale =
-    request.cookies.get("NEXT_LOCALE")?.value || routing.defaultLocale;
+  // const pathname = request.nextUrl.pathname;
+  // const access_token = request.cookies.get("ACCESS_TOKEN")?.value;
+  // const user_type = request.cookies.get("USER_TYPE")?.value as UserType;
+  // const locale =
+  //   request.cookies.get("NEXT_LOCALE")?.value || routing.defaultLocale;
 
-  const publicRoutes = ["/login"];
+  // const publicRoutes = ["/login"];
 
-  const isPublic = publicRoutes.some(
-    (route) => pathname === `/${locale}${route}` || pathname === route
-  );
+  // const isPublic = publicRoutes.some(
+  //   (route) => pathname === `/${locale}${route}` || pathname === route
+  // );
 
   // Block access to protected pages if not authenticated
-  if (!access_token && !isPublic) {
-    const loginUrl = new URL(`/${locale}/login`, request.url);
-    return NextResponse.redirect(loginUrl);
-  }
+  // if (!isPublic) {
+  //   const loginUrl = new URL(`/${locale}/login`, request.url);
+  //   return NextResponse.redirect(loginUrl);
+  // }
 
-  const isRootOrLogin =
-    pathname === "/" || pathname === `/${locale}` || isPublic;
+  // const isRootOrLogin =
+  //   pathname === "/" || pathname === `/${locale}` || isPublic;
 
-  if (access_token && user_type && isRootOrLogin) {
-    let dashboardUrl;
+  // if (access_token && user_type && isRootOrLogin) {
+  //   let dashboardUrl;
 
-    switch (user_type) {
-      case UserType.SUPER_ADMIN:
-      case UserType.ADMIN:
-        dashboardUrl = new URL(`/${locale}/dashboard/overview`, request.url);
-        break;
-      case UserType.CALL_SERVICE:
-      case UserType.ACCOUNTANT:
-        dashboardUrl = new URL(
-          `/${locale}/dashboard/umrah-requests/current-requests`,
-          request.url
-        );
-        break;
-      default:
-        dashboardUrl = new URL(`/${locale}/error/unauthorized`, request.url);
-        break;
-    }
+  //   switch (user_type) {
+  //     case UserType.SUPER_ADMIN:
+  //     case UserType.ADMIN:
+  //       dashboardUrl = new URL(`/${locale}/dashboard/overview`, request.url);
+  //       break;
+  //     case UserType.CALL_SERVICE:
+  //     case UserType.ACCOUNTANT:
+  //       dashboardUrl = new URL(
+  //         `/${locale}/dashboard/umrah-requests/current-requests`,
+  //         request.url
+  //       );
+  //       break;
+  //     default:
+  //       dashboardUrl = new URL(`/${locale}/error/unauthorized`, request.url);
+  //       break;
+  //   }
 
-    return NextResponse.redirect(dashboardUrl);
-  }
+  //   return NextResponse.redirect(dashboardUrl);
+  // }
   // const pathWithoutLocale = locale
   //   ? pathname.slice(locale.length + 1)
   //   : pathname;

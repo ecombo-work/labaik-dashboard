@@ -8,6 +8,24 @@ export const notificationApi = createApi({
   reducerPath: "notificationApi",
   baseQuery: baseQueryWithToast,
   endpoints: (builder) => ({
+    createNotification: builder.mutation<
+      NotificationResponse,
+      {
+        title_ar: string;
+        title_en: string;
+        message_ar: string;
+        message_en: string;
+        receiver: "performers" | "seekers" | "employees" | "all";
+        scheduled_at: string;
+      }
+    >({
+      query: (body) => ({
+        url: "/notifications/add-schedule",
+        method: "POST",
+        body,
+      }),
+    }),
+
     getScheduleNotifications: builder.query<
       NotificationResponse,
       {
@@ -24,4 +42,7 @@ export const notificationApi = createApi({
   }),
 });
 
-export const { useGetScheduleNotificationsQuery } = notificationApi;
+export const {
+  useGetScheduleNotificationsQuery,
+  useCreateNotificationMutation,
+} = notificationApi;

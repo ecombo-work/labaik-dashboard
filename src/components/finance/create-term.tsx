@@ -29,6 +29,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { useCreateTermMutation } from "@/lib/apis/term";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
+import { usePathname } from "@/i18n/navigation";
+import { TermType } from "./transactions";
 const createTermSchema = z.object({
   name: z.string().min(1, "Name is required"),
   type: z.string().min(1, "Type is required"),
@@ -36,14 +38,14 @@ const createTermSchema = z.object({
 type formInterface = z.infer<typeof createTermSchema>;
 export default function CreateTerm({ pre_loader }: { pre_loader: boolean }) {
   const t = useTranslations("terms");
-  const { queryParams } = useUrlSearchParams();
+  const pathname = usePathname();
   const [createTerm, { isLoading }] = useCreateTermMutation();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const form = useForm<formInterface>({
     resolver: zodResolver(createTermSchema),
     defaultValues: {
       name: "",
-      type: queryParams.type,
+      type: pathname.includes("incoming") ? TermType.INCOMING : TermType.OUTGOING,
     },
   });
 

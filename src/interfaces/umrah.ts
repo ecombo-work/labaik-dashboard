@@ -29,8 +29,11 @@ export interface CurrentUmrahRequestResponse {
 export interface CurrentUmrahRequestParams {
   page?: string;
   limit?: string;
-  // search?: string;
-  // status?: string;
+  umrah_id?: string;
+  created_by?: string;
+  assigned_to?: string;
+  from?: string;
+  to?: string;
 }
 // export interface UmrahDetailsResponse {
 interface User {

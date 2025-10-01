@@ -7,8 +7,8 @@ export default function Page() {
   const t = useTranslations("transactions");
   return (
     <Tabs defaultValue="incoming" className="!w-full">
-      <TabsList className="!w-full bg-accent">
-        <TabsTrigger value="incoming">{t("incoming")}</TabsTrigger>
+      <TabsList className="w-full bg-accent">
+        <TabsTrigger  value="incoming">{t("incoming")}</TabsTrigger>
         <TabsTrigger value="terms">{t("terms")}</TabsTrigger>
       </TabsList>
       <TabsContent value="incoming">

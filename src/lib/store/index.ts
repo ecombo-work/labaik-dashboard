@@ -12,6 +12,7 @@ import { withdrawalApi } from "../apis/withdrawal";
 import { overviewApi } from "../apis/overview";
 import { notificationApi } from "../apis/notifications";
 import { reportsApi } from "../apis/reports";
+import { donationsApi } from "../apis/donations";
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     [notificationApi.reducerPath]: notificationApi.reducer,
     [overviewApi.reducerPath]: overviewApi.reducer,
     [reportsApi.reducerPath]: reportsApi.reducer,
+    [donationsApi.reducerPath]: donationsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
@@ -44,6 +46,7 @@ export const store = configureStore({
       overviewApi.middleware,
       withdrawalApi.middleware,
       reportsApi.middleware,
+      donationsApi.middleware,
     );
   },
 });

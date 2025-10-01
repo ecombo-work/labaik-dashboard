@@ -1,0 +1,12 @@
+{
+    "piny.project_settings": {
+        "open-pages": [
+            "pinyfakepage.html"
+        ],
+        "component-settings": {
+            "src/app/%5Blocale%5D/dashboard/donations/page.tsx:::Temp": {
+                "route": "http://localhost:3000/ar/dashboard/donations"
+            }
+        }
+    }
+}

@@ -1,7 +1,4 @@
 "use client";
-
-import { Title } from "@/components/ui/typography";
-import { useTranslations } from "next-intl";
 import React from "react";
 import { useColumns } from "./columns";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
@@ -9,9 +6,10 @@ import { useGetAccountsQuery } from "@/lib/apis/account";
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/constants/pagination";
 import { DataTable } from "@/components/data-table";
 import CreateAccount from "./create-new";
+import PageHeader from "@/components/page-header";
+import AccountSearchForm from "./search";
 
 export default function Page() {
-  const t = useTranslations("page_title");
   const columns = useColumns();
   const { queryParams } = useUrlSearchParams();
   const { data, isLoading, error, refetch, isFetching } = useGetAccountsQuery(
@@ -28,7 +26,9 @@ export default function Page() {
   );
   return (
     <React.Fragment>
-      <Title>{t("accounts")}</Title>
+      <PageHeader title={"accounts"}>
+        <AccountSearchForm />
+      </PageHeader>
       <DataTable
         columns={columns}
         data={data?.data?.items}

@@ -4,6 +4,7 @@ import { ApiResponse } from "@/interfaces/response";
 import { UserVerificationStatus } from "@/constants/user.constants";
 import { CountryCode } from "libphonenumber-js";
 import { UserType } from "../roles";
+import { LoginResponse } from "@/interfaces/auth";
 export interface PaginationMeta {
   current_page: number;
   total_pages: number;
@@ -63,14 +64,14 @@ export interface UserReviewResponse {
     verified_at: string;
   };
 }
-export interface Employee  {
+export interface Employee {
   user_id: number;
   username: string;
   email: string;
   phone_number: string;
   is_active: boolean;
   country: CountryCode;
-  user_type:UserType;
+  user_type: UserType;
   created_at: string;
 }
 interface AllEmployeesResponse {
@@ -80,12 +81,9 @@ interface AllEmployeesResponse {
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithToast,
-  tagTypes: ["Users"],
+  tagTypes: ["Users", "Employees"],
   endpoints: (builder) => ({
-    getSeekers: builder.query<
-      ApiResponse<AllSeekersResponse>,
-      GetUsersParams
-    >({
+    getSeekers: builder.query<ApiResponse<AllSeekersResponse>, GetUsersParams>({
       query: (params) => ({
         url: "/user/all-seekers",
         params,
@@ -129,14 +127,44 @@ export const userApi = createApi({
       ApiResponse<UserReviewResponse>,
       { user_id: string }
     >({
-      query: ({user_id}) => ({
+      query: ({ user_id }) => ({
         url: `/user/${user_id}/review`,
       }),
     }),
-    getAllEmployees: builder.query<ApiResponse<AllEmployeesResponse>, GetUsersParams>({
+    getAllEmployees: builder.query<
+      ApiResponse<AllEmployeesResponse>,
+      GetUsersParams
+    >({
       query: (params) => ({
         url: "/user/all-employees",
         params,
+      }),
+      providesTags: ["Employees"],
+    }),
+    createEmployee: builder.mutation<
+      ApiResponse<void>,
+      {
+        username: string;
+        email: string;
+        phone_number: string;
+        password: string;
+        user_type: string;
+      }
+    >({
+      query: (body) => ({
+        url: `/user/create-employee`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Employees"],
+    }),
+    searchUsers: builder.query<ApiResponse<any[]>, string | undefined>({
+      query: (q) => `user/search?q=${encodeURIComponent(q || "")}`,
+    }),
+    loginAs: builder.mutation<ApiResponse<LoginResponse>, { user_id: number }>({
+      query: (user_id) => ({
+        url: `/auth/${user_id}/login-as`,
+        method: "POST",
       }),
     }),
   }),
@@ -150,4 +178,7 @@ export const {
   useChangeVerificationStatusMutation,
   useGetUserReviewQuery,
   useGetAllEmployeesQuery,
+  useCreateEmployeeMutation,
+  useSearchUsersQuery,
+  useLoginAsMutation,
 } = userApi;

@@ -10,6 +10,7 @@ import {
 export const umrahApi = createApi({
   reducerPath: "umrahApi",
   baseQuery: baseQueryWithToast,
+  tagTypes: ["umrah"],
   endpoints: (builder) => ({
     getCurrentRequests: builder.query<
       ApiResponse<CurrentUmrahRequestResponse>,
@@ -19,6 +20,7 @@ export const umrahApi = createApi({
         url: `/umrah/current-requests`,
         params,
       }),
+      providesTags: (result) => [{ type: "umrah", id: "LIST" }],
     }),
     // umrah details
     getUmrahDetails: builder.query<
@@ -28,6 +30,7 @@ export const umrahApi = createApi({
       query: ({ umrah_id }) => ({
         url: `/umrah/details/${umrah_id}`,
       }),
+      providesTags: (result) => [{ type: "umrah", id: "LIST" }],
     }),
     lostRequests: builder.query<
       ApiResponse<CurrentUmrahRequestResponse>,
@@ -37,6 +40,18 @@ export const umrahApi = createApi({
         url: `/umrah/lost-requests`,
         params,
       }),
+      providesTags: (result) => [{ type: "umrah", id: "LIST" }],
+    }),
+    reassignUmrah: builder.mutation<
+      ApiResponse<any>,
+      { umrah_id: string; user_id: number }
+    >({
+      query: ({ umrah_id, user_id }) => ({
+        url: `/umrah/${umrah_id}/reassign`,
+        method: "PUT",
+        body: { user_id },
+      }),
+      invalidatesTags: (result) => [{ type: "umrah", id: "LIST" }],
     }),
   }),
 });
@@ -44,4 +59,5 @@ export const {
   useGetCurrentRequestsQuery,
   useGetUmrahDetailsQuery,
   useLostRequestsQuery,
+  useReassignUmrahMutation,
 } = umrahApi;

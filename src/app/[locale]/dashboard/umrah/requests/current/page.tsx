@@ -3,13 +3,12 @@
 import { useUrlSearchParams } from "@/lib/utils/search-params";
 import { useColumns } from "./columns";
 import { useGetCurrentRequestsQuery } from "@/lib/apis/umrah";
-import { Title } from "@/components/ui/typography";
 import { DataTable } from "@/components/data-table";
-import { useTranslations } from "next-intl";
 import { useMemo } from "react";
+import PageHeader from "@/components/page-header";
+import UmrahSearchForm from "./search";
 
 export default function Page() {
-  const t = useTranslations("page_title");
   const columns = useColumns();
   const { queryParams } = useUrlSearchParams();
   const queryArgs = useMemo(
@@ -26,10 +25,10 @@ export default function Page() {
     });
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <Title>{t("current_umrah_requests")}</Title>
-      </div>
+    <>
+      <PageHeader title="current_umrah_requests">
+        <UmrahSearchForm />
+      </PageHeader>
       <DataTable
         columns={columns}
         data={data?.data?.items}
@@ -38,6 +37,6 @@ export default function Page() {
         error={error}
         loading={isLoading || isFetching}
       />
-    </div>
+    </>
   );
 }

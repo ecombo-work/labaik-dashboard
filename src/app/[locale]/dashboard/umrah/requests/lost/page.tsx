@@ -1,13 +1,12 @@
-import { Title } from "@/components/ui/typography";
-import { getTranslations } from "next-intl/server";
 import LostRequestsDataTable from "./data-table";
-export default async function Page() {
-  const t = await getTranslations("page_title");
+import PageHeader from "@/components/page-header";
+import LostUmrahSearchForm from "./search";
+export default function Page() {
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <Title>{t("lost_umrah_requests")}</Title>
-      </div>
+      <PageHeader title={"lost_umrah_requests"}>
+        <LostUmrahSearchForm />
+      </PageHeader>
       <LostRequestsDataTable />
     </div>
   );

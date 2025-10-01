@@ -1,10 +1,11 @@
 import BreadcrumbDropdown from "@/components/breadcrumb-dropdown";
+import { Fragment } from "react";
 
-export default function Layout({children}: {children: React.ReactNode}) {
-    return (
-        <section className="container">
-            <BreadcrumbDropdown title="notifications" dropdownItems={[]} />
-            {children}
-        </section>
-    );
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <Fragment>
+      <BreadcrumbDropdown title="notifications" dropdownItems={[]} />
+      {children}
+    </Fragment>
+  );
 }

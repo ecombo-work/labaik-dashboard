@@ -90,7 +90,7 @@ const getAction = (t: any, action: UmrahAction) => {
     [UmrahAction.REQUEST_IN_PROGRESS]: {
       icon: Loader2,
       bg: "bg-indigo-100",
-       text: "text-indigo-500",
+      text: "text-indigo-500",
       label: t("history.umrah_actions.10"),
     },
     [UmrahAction.REQUEST_COMPLETED]: {
@@ -103,7 +103,7 @@ const getAction = (t: any, action: UmrahAction) => {
       icon: UserPlus,
       bg: "bg-cyan-100",
       text: "text-cyan-600",
-      label:   t("history.umrah_actions.12"),
+      label: t("history.umrah_actions.12"),
     },
     [UmrahAction.PERFORMER_CHANGED]: {
       icon: Users,
@@ -129,11 +129,23 @@ const getAction = (t: any, action: UmrahAction) => {
       text: "text-rose-600",
       label: t("history.umrah_actions.16"),
     },
+    [UmrahAction.REASSIGN_UMRAH]: {
+      icon: AlertCircle,
+      bg: "bg-rose-100",
+      text: "text-rose-600",
+      label: t("history.umrah_actions.17"),
+    },
     [UmrahAction.SYSTEM_AUTO_CANCELLED]: {
       icon: RefreshCcw,
       bg: "bg-gray-100",
       text: "text-gray-500",
       label: t("history.umrah_actions.18"),
+    },
+    [UmrahAction.NO_PAYMENT_ACTION]: {
+      icon: AlertCircle,
+      bg: "bg-gray-100",
+      text: "text-gray-500",
+      label: t("history.umrah_actions.19"),
     },
     [UmrahAction.START_IHRAM]: {
       icon: ArrowRightCircle,
@@ -173,7 +185,14 @@ const getAction = (t: any, action: UmrahAction) => {
     },
   };
 
-  return actions[action];
+  return (
+    actions[action] || {
+      icon: AlertCircle,
+      bg: "bg-gray-100",
+      text: "text-gray-500",
+      label: t("history.unknown_action"),
+    }
+  );
 };
 function HistoryCard({
   history,
@@ -182,7 +201,6 @@ function HistoryCard({
   history: UmrahDetailsResponse["history"];
   t: any;
 }) {
- 
   if (!history?.length) {
     return (
       <Card className="p-4 space-y-4">

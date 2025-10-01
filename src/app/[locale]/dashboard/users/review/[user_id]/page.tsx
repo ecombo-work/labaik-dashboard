@@ -21,9 +21,6 @@ export default function Page({
   const t = useTranslations("data_table");
   const { data, isLoading } = useGetUserReviewQuery({ user_id });
   if (isLoading) return <div>Loading...</div>;
-  console.log("=====================================");
-  console.log(data?.data);
-  console.log("=====================================");
   if (!data?.data) return <div>No data found</div>;
   const {
     profile_image,

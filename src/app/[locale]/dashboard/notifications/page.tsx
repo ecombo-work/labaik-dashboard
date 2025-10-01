@@ -110,11 +110,10 @@ export default function Page() {
     month: new Date().getMonth() + 1,
   });
   return (
-    <div>
+    <div className="w-full h-full">
       <Title>{t("notifications")}</Title>
-      <div className="space-y-4 bg-card rounded-lg drop-shadow-xl ">
+     
         <FullScreenCalendar data={notifications?.data || []}  />
-      </div>
     </div>
   );
 }

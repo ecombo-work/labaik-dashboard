@@ -54,7 +54,7 @@ export function TimePicker({ date, setDate, className }: TimePickerProps) {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild className="w-full">
         <Button
           variant="outline"
           className={cn(
@@ -67,7 +67,7 @@ export function TimePicker({ date, setDate, className }: TimePickerProps) {
           {timeString}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="w-auto p-0" align="center">
         <div className="p-4">
           <div className="grid grid-cols-4 gap-2 mb-4">
             {QUICK_TIMES.map(({ label, time, icon }) => (

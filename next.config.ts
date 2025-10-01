@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ["@radix-ui/react-*"],
+    
   },
   eslint: {
     ignoreDuringBuilds: true,

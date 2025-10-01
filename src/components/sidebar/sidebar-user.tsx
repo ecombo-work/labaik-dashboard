@@ -41,10 +41,7 @@ export function SidebarUser({ user }: { user: LoginResponse }) {
   const { isMobile } = useSidebar();
   const [logoutMutation, { isLoading }] = useLogoutMutation();
   const t = useTranslations("sidebar_user");
-  console.log("user", user);
-  if (!user) {
-    return null;
-  }
+  
   const handleLogout = async () => {
     await logoutMutation().then(() => {
       router.push("/login");
@@ -68,13 +65,13 @@ export function SidebarUser({ user }: { user: LoginResponse }) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.profile_image} alt={user.username} />
+                <AvatarImage src={user?.profile_image} alt={user?.username} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.username}</span>
+                <span className="truncate font-medium">{user?.username}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {user?.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -89,13 +86,13 @@ export function SidebarUser({ user }: { user: LoginResponse }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.profile_image} alt={user.username} />
+                  <AvatarImage src={user?.profile_image} alt={user?.username} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.username}</span>
+                  <span className="truncate font-medium">{user?.username}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {user?.email}
                   </span>
                 </div>
               </div>

@@ -6,7 +6,7 @@ function SelectedRows({ table, t }: { table: Table<any>; t: any }) {
     .getFlatHeaders()
     .find((header) => header.id == "select");
   return (
-    <div className="text-muted-foreground text-sm whitespace-nowrap">
+    <div className="text-muted-foreground text-sm whitespace-nowrap px-2">
       {have_check_box &&
         table.getFilteredRowModel().rows.length > 0 &&
         t("selected_rows", {

@@ -1,7 +1,15 @@
-import { eachDayOfInterval, endOfMonth, endOfWeek, format, getDay, isSameDay, startOfWeek } from "date-fns";
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  endOfWeek,
+  format,
+  getDay,
+  isSameDay,
+  startOfWeek,
+} from "date-fns";
 import { cn } from "@/lib/utils";
-import { CalendarDay } from "./CalendarDay";
-import { CalendarBaseProps, CalendarData, CalendarEvent } from "./types";
+import { CalendarDay } from "../cells/CalendarDay";
+import { CalendarBaseProps, CalendarData, CalendarEvent } from "../types";
 import { ScheduleNotifications } from "@/interfaces/notification";
 
 const colStartClasses = [
@@ -23,9 +31,13 @@ interface CalendarGridProps extends CalendarBaseProps {
   isDesktop: boolean;
   className?: string;
   onAddNotification?: (notification: {
-    title: string;
-    description?: string;
-    time: Date;
+    day: Date;
+    title_ar: string;
+    title_en: string;
+    message_ar: string;
+    message_en: string;
+    receiver: "performers" | "seekers" | "employees" | "all";
+    scheduledAt: Date;
   }) => void;
   getDayEvents: (day: Date) => CalendarEvent[];
 }
@@ -41,17 +53,35 @@ export function CalendarGrid({
   getDayEvents,
   ...props
 }: CalendarGridProps) {
-  const handleAddNotification = (day: Date, notification: { title: string; description?: string; time: Date }) => {
+  const handleAddNotification = (
+    day: Date,
+    notification: {
+      title_ar: string;
+      title_en: string;
+      message_ar: string;
+      message_en: string;
+      receiver: "performers" | "seekers" | "employees" | "all";
+      scheduledAt: Date;
+    }
+  ) => {
     if (onAddNotification) {
-      onAddNotification(notification);
+      onAddNotification({
+        day,
+        ...notification,
+      });
     }
   };
 
+  const canAddNotification = (day: Date) => {
+    const today = new Date();
+    return isSameDay(day, today) || day > today;
+  };
+
   return (
-    <div className="flex text-xs leading-6 lg:flex-auto h-full">
+    <div className="flex text-xs leading-6 lg:flex-auto h-full w-full">
       <div
-        className={cn("w-full h-full", {
-          "border-x lg:grid lg:grid-cols-7 lg:grid-rows-5 hidden": isDesktop,
+        className={cn("w-screen h-[calc(100vh-10vh)]", {
+          "lg:grid lg:grid-cols-7 lg:grid-rows-5 hidden": isDesktop,
           "grid grid-cols-7 grid-rows-5 lg:hidden": !isDesktop,
         })}
       >
@@ -64,8 +94,10 @@ export function CalendarGrid({
             dayEvents={getDayEvents(day)}
             onClick={() => onDayClick(day)}
             isMobile={!isDesktop}
-            onAddNotification={(notification) => handleAddNotification(day, notification)}
-           
+            onAddNotification={(notification) =>
+              handleAddNotification(day, notification)
+            }
+            canAddNotification={canAddNotification(day)}
             className={cn({
               [colStartClasses[getDay(day)]]: isDesktop && dayIdx === 0,
             })}

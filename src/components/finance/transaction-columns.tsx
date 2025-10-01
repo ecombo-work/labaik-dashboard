@@ -21,12 +21,16 @@ export const useTransactionColumns = () => {
       {
         accessorKey: "created_at",
         header: t("date"),
+        // size: 80,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },
       {
         accessorKey: "received_at",
         header: t("received_at"),
-        cell: ({ row }) => row.getValue("received_at") ? formatDate(row.getValue("received_at"), "yyyy-MM-dd") : formatDate(row.getValue("created_at"), "yyyy-MM-dd"),
+        cell: ({ row }) =>
+          row.getValue("received_at")
+            ? formatDate(row.getValue("received_at"), "yyyy-MM-dd")
+            : '-',
       },
       {
         accessorKey: "amount",

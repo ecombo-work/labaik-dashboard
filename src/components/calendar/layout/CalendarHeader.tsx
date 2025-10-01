@@ -1,22 +1,14 @@
 import { format } from "date-fns";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  PlusCircleIcon,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { CalendarBaseProps } from "./types";
+import { CalendarBaseProps } from "../types";
 import { useTranslations } from "next-intl";
-import { Label } from "../ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
 interface CalendarHeaderProps extends CalendarBaseProps {
   today: Date;

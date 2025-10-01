@@ -16,6 +16,8 @@ export interface ContactMessage {
   user: {
     user_id: number;
     username: string;
+    phone_number: string;
+    country: string;
   };
   created_at: string;
 }
@@ -42,6 +44,15 @@ export const contactApi = createApi({
         params,
       }),
     }),
+    getContactMessage: builder.query<
+      ApiResponse<ContactMessage>,
+      { contact_id: number }
+    >({
+      query: ({ contact_id }) => ({
+        url: `/contact/${contact_id}`,
+        method: "GET",
+      }),
+    }),
     updateContactMessage: builder.mutation<
       ApiResponse<void>,
       { contact_id: number; status: ContactType }
@@ -54,5 +65,5 @@ export const contactApi = createApi({
     }),
   }),
 });
-export const { useGetContactMessagesQuery, useUpdateContactMessageMutation } =
+export const { useGetContactMessagesQuery, useUpdateContactMessageMutation, useGetContactMessageQuery } =
   contactApi;

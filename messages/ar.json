@@ -1,4 +1,11 @@
 {
+  "seo": {
+    "title": "لبّيك | لوحة التحكم",
+    "description": "لوحة التحكم لبيك",
+    "keywords": "لبّيك,لوحة التحكم,العمرة,إدارة,إحصائيات,Next.js",
+    "locale": "ar_SA",
+    "image": "/labaik_ar.png"
+  },
   "meta_data": {
     "admin": "لبيك | لوحة التحكم",
     "login": "لبيك | تسجيل الدخول",
@@ -37,6 +44,7 @@
     "unauthorized": "إجراء غير مصرح به."
   },
   "sidebar": {
+    "donations": "التبرعات",
     "dashboard": "لوحة التحكم",
     "umrah_management": "ادارة العمرة",
     "current_requests": "الطلبات الحالية",
@@ -90,6 +98,7 @@
     "today": "الحالي"
   },
   "breadcrumb": {
+    "donations": "التبرعات",
     "dashboard": "الرئيسية",
     "users": "ادارة المستخدمين",
     "seekers": "طالِب العمرة",
@@ -118,7 +127,83 @@
     "contact_messages": "تواصل معنا",
     "withdrawals": "طلبات السحب"
   },
+  "donations": {
+    "title": "التبرعات",
+    "add_donation": "إضافة جمعية",
+    "add_donation_title": "إضافة جمعية جديدة",
+    "description": "وصف",
+    "name": "اسم الجمعية",
+    "image": "صورة",
+    "link": "رابط",
+    "save": "حفظ",
+    "save_changes": "حفظ التغييرات",
+    "close": "إغلاق"
+  },
+  "search_form": {
+    "transactions": {
+      "term": "معرف/اسم البند",
+      "account": "معرف/اسم الحساب",
+      "receive_date": "تاريخ الاستلام"
+    },
+    "withdrawals": {
+      "performer": "معرف/اسم المعتمر",
+      "method": "طريقة السحب",
+      "status": "حالة طلب السحب",
+      "methods": {
+        "0": "تحويل بنكي",
+        "1": "باي بال",
+        "2": "بي نانس"
+      },
+      "withdrawal_status": {
+        "0": "قيد المراجعة",
+        "1": "تم الموافقة",
+        "2": "مرفوض"
+      }
+    },
+    "search": "بحث",
+    "reset": "إعادة تعيين",
+    "discount_type": "نوع الخصم",
+    "fixed": "ثابت",
+    "percent": "نسبة",
+    "code": "كود الكوبون",
+    "select": "اختر",
+    "identifier": "المعرف",
+    "username": "اسم المستخدم",
+    "email": "البريد الإلكتروني",
+    "phone_number": "رقم الهاتف",
+    "is_active": "الحالة",
+    "account_name": "اسم الحساب",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "date_range": "التاريخ",
+    "verification_status": "حالة التحقق",
+    "no_verification_uploaded": "لم يتم الرفع",
+    "pending": "قيد الانتظار",
+    "verified": "تم التحقق",
+    "rejected": "مرفوض",
+    "created_by": "معرف/اسم طالب العمرة ",
+    "assigned_to": "معرف/اسم المعتمر",
+    "status": "الحالة",
+    "umrah_status": {
+      "0": "استقبال عروض",
+      "1": "قبول عرض",
+      "2": "بانتظار دفع",
+      "3": "مدفوع",
+      "4": "فشل دفع",
+      "5": "مقبول",
+      "6": "يبدأ قريبًا",
+      "7": "قيد التنفيذ",
+      "8": "مكتمل",
+      "9": "أُلغي من المنفذ",
+      "10": "أُلغي من الطالب",
+      "11": "أُلغي من الإدارة",
+      "12": "إلغاء تلقائي",
+      "13": "انتهى وقت الدفع"
+    }
+  },
   "page_title": {
+    "search": "بحث",
+    "donations": "التبرعات",
     "seekers": "طالِب العمرة",
     "performers": "المعتمرون",
     "review_needed": "بحاجة إلى المراجعة",
@@ -196,16 +281,35 @@
   },
   "alert_dialog": {
     "change_status": "تغيير الحالة",
-    "change_status_title": "هل انت متأكد من تغيير حالة المستخدم؟",
-    "change_status_description": "سيتم تغيير حالة المستخدم من {current_status} إلى {change_to} {description}",
-    "change_status_description_seeker_from_active_to_inactive": "لن يتمكن المستخدم من تسجيل الدخول أو إنشاء طلب عمرة جديد",
-    "change_status_description_seeker_from_inactive_to_active": "سيتمكن المستخدم من تسجيل الدخول و إنشاء طلب عمرة جديد",
     "change_verification_status_title": "تغيير حالة التحقق",
     "change_verification_status_description": "هل أنت متأكد أنك تريد تغيير حالة التحقق لهذا المستخدم إلى {status}؟ سيؤدي هذا الإجراء إلى تحديث سجل التحقق من هوية المستخدم وقد يؤثر على وصوله أو صلاحياته داخل المنصة. لا يمكن التراجع عن هذا التغيير.",
-    "inactive": "غير نشط",
     "active": "نشط",
-    "cancel": "الغاء",
-    "continue": "متابعه"
+    "inactive": "غير نشط",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "delete": "حذف",
+    "deleted_successfully": "تم الحذف بنجاح",
+    "error_occurred": "حدث خطأ",
+    "change_status_title": "تغيير الحالة",
+    "change_donation_status_title": "تغيير حالة الجمعية",
+    "change_status_description": "أنت على وشك تغيير الحالة من {current_status} إلى {change_to}. ",
+    "change_donation_status_description": "أنت على وشك تغيير حالة الجمعية من {current_status} إلى {change_to}. ",
+    "change_status_description_seeker_from_active_to_inactive": "لن يتمكن المستخدم من الوصول إلى المنصة.",
+    "change_status_description_seeker_from_inactive_to_active": "سيستعيد المستخدم إمكانية الوصول إلى المنصة.",
+    "change_donation_status_description_from_active_to_inactive": "لن تكون الجمعية مرئية أو قادرة على تلقي التبرعات.",
+    "change_donation_status_description_from_inactive_to_active": "سيتم إعادة تفعيل الجمعية وستتمكن من تلقي التبرعات مرة أخرى.",
+    "delete_user_title": "حذف المستخدم",
+    "delete_user_description": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.",
+    "delete_donation_title": "حذف الجمعية",
+    "delete_donation_description": "هل أنت متأكد أنك تريد حذف هذه الجمعية؟ لا يمكن التراجع عن هذا الإجراء.",
+    "coupon": {
+      "change_status_title": "تغيير حالة الكوبون",
+      "active": "كوبون نشط",
+      "inactive": "كوبون غير نشط",
+      "change_status_description": "أنت على وشك تغيير حالة الكوبون من {current_status} إلى {change_to}.",
+      "change_status_description_from_active_to_inactive": "لن يكون الكوبون صالحًا بعد الآن.",
+      "change_status_description_from_inactive_to_active": "سيصبح الكوبون صالحًا وقابلاً للاستخدام مرة أخرى."
+    }
   },
   "coupons": {
     "change_status_title": "هل أنت متأكد من تغيير حالة الكوبون؟",
@@ -242,6 +346,9 @@
     "umrah_daily_report": "عدد الطلبات اليوميه للفترة المحددة"
   },
   "reports": {
+    "term": "البند",
+    "total_expense": "المصروفات",
+    "total": "المجموع",
     "all_in_range": "الكل",
     "active": "نشطين",
     "top_15": "أفضل 15",
@@ -260,9 +367,18 @@
       "profit": "صافي الربح",
       "umrah_revenues": "إيرادات العمرة",
       "total_other_revenues": "إيرادات أخرى"
+    },
+    "countries": {
+      "title": "طلبات العمرة حسب الدولة",
+      "description": "عدد طلبات العمرة التي أنشأها المستخدمون في كل دولة."
     }
   },
   "umrah_details": {
+    "reassign": "إعادة التعيين",
+    "assign": "تعيين",
+    "no_results": "لا يوجد نتائج",
+    "reassign_description": "سيتم إعادة تعيين العمرة إلى المستخدم المحدد.",
+    "search_placeholder": "ابحث عن المعتمر ب رقم الهاتف/البريد الالكتروني/ الاسم",
     "no_performer_selected": "لا يوجد معتمر",
     "performer_not_assigned": "لم يتم تعيين معتمر",
     "no_progress_available": "لا يوجد تقدم",
@@ -323,11 +439,11 @@
       "starting_soon": "قريبًا",
       "in_progress": "قيد التنفيذ",
       "completed": "مكتمل",
-      "cancelled_by_performer": "أُلغي من المعتمر",
+      "cancelled_by_performer": "أُلغي من المنفذ",
       "cancelled_by_seeker": "أُلغي من الطالب",
       "cancelled_by_admin": "أُلغي من الإدارة",
-      "request_expired": "انتهت المدة",
-      "no_payment_action": "لم يُدفع"
+      "system_auto_cancelled": "إلغاء تلقائي",
+      "payment_timeout": "انتهى وقت الدفع"
     },
     "user": {
       "seeker": "طالب العمرة",
@@ -387,6 +503,7 @@
       "performed_by": "تم بواسطة",
       "title": "السجل",
       "no_history": "لا يوجد سجل متاح",
+      "unknown_action": "إجراء غير معروف",
       "umrah_actions": {
         "0": "تم إنشاء طلب العمرة",
         "1": "تم إضافة عرض جديد",
@@ -404,7 +521,9 @@
         "14": "ألغى المنفذ الطلب",
         "15": "ألغى طالب العمرة الطلب",
         "16": "تم إلغاء الطلب من قبل الإدارة",
+        "17": "تم إعادة تعيين الطلب",
         "18": "أُلغِي الطلب تلقائيًا",
+        "19": "لا يوجد دفع",
         "20": "بدأ الإحرام",
         "21": "بدأ الطواف",
         "22": "بدأ السعي",
@@ -480,7 +599,27 @@
     }
   },
   "data_table": {
+    "login_as": "الدخول",
+    "image_url": "الصورة",
+    "visits": "الزيارات",
+    "message": "الرسالة",
+    "name": "الاسم",
+    "view": "عرض",
+    "contact_messages": {
+      "cancel": "الغاء",
+      "save": "حفظ",
+      "change_status_title": "تغيير الحالة",
+      "change_status_description": "هل انتا متأكد من تغيير الحالة",
+      "status": {
+        "in_progress": "قيد المراجعة",
+        "resolved": "تم حل",
+        "completed": "مكتمل",
+        "cancelled": "ملغي",
+        "rejected": "مرفوض"
+      }
+    },
     "completed_count": "انهي",
+    "total_count": "إجمالي",
     "payment_method": "طريقة الدفع",
     "note": "ملاحظه",
     "received_at": "تاريخ الاستلام",
@@ -545,16 +684,16 @@
         "receiving_offers": "استقبال العروض",
         "offer_accepted": "عرض مقبول",
         "awaiting_payment": "بانتظار الدفع",
-        "payment_completed": "تم الدفع",
+        "payment_completed": "مدفوع",
         "payment_failed": "فشل الدفع",
         "accepted": "مقبول",
         "starting_soon": "يبدأ قريباً",
         "in_progress": "قيد التنفيذ",
         "completed": "مكتمل",
-        "cancelled_by_performer": "ملغي من قبل المعتمر",
-        "cancelled_by_seeker": "ملغي من قبل طالب العمرة",
-        "cancelled_by_admin": "ملغي من قبل الإدارة",
-        "system_auto_cancelled": "ملغي تلقائيا",
+        "cancelled_by_performer": "ملغي من المعتمر",
+        "cancelled_by_seeker": "ملغي من طالب العمرة",
+        "cancelled_by_admin": "ملغي من الإدارة",
+        "system_auto_cancelled": "إلغاء تلقائي",
         "payment_timeout": "انتهت المدة",
         "request_expired": "انتهى الطلب"
       }
@@ -627,5 +766,59 @@
   "file_input": {
     "click_to_upload": "اضغط للرفع",
     "or_drag_and_drop": "أو اسحب و افلت"
+  },
+  "notifications": {
+    "close": "إغلاق",
+    "schedule": "جدولة",
+    "dialog": {
+      "title": "جدولة الإشعار",
+      "description": "قم بتعيين إشعار لـ {date}",
+      "cancel": "إلغاء",
+      "schedule": "جدولة الإشعار",
+      "scheduling": "جارٍ الجدولة..."
+    },
+    "form": {
+      "lang": {
+        "ar": "العربية",
+        "en": "الإنجليزية"
+      },
+      "title_ar": "العنوان (العربية)",
+      "title_en": "العنوان (الإنجليزية)",
+      "message_ar": "الرسالة (العربية)",
+      "message_en": "الرسالة (الإنجليزية)",
+      "title": {
+        "label": "العنوان",
+        "placeholder": "أدخل عنوان الإشعار",
+        "required": "العنوان مطلوب",
+        "too_long": "العنوان طويل جدًا"
+      },
+      "message": {
+        "label": "الرسالة",
+        "placeholder": "أدخل نص الإشعار",
+        "required": "الرسالة مطلوبة",
+        "too_long": "النص طويل جدًا",
+        "counter": "{count}/500"
+      },
+      "receiver": {
+        "label": "إرسال إلى",
+        "placeholder": "اختر نوع المستلمين",
+        "required": "يرجى اختيار نوع المستلمين",
+        "types": {
+          "performers": "المؤدين",
+          "seekers": "الطالِبين",
+          "employees": "الموظفين",
+          "all": "الكل"
+        }
+      },
+      "scheduledAt": {
+        "label": "وقت الجدولة",
+        "required": "يرجى اختيار وقت الجدولة",
+        "now_plus_5": "الآن + 5 دقائق",
+        "plus_30": "+30 دقيقة",
+        "plus_1h": "+1 ساعة",
+        "tomorrow": "غداً الساعة 9:00 صباحاً",
+        "preview": "تمت الجدولة ليوم {date} الساعة {time}"
+      }
+    }
   }
 }

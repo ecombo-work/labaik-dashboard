@@ -61,7 +61,6 @@ function UpdateWithdrawal({ withdrawal }: { withdrawal: WithdrawalBaseInfo }) {
     withdrawal.status === WithdrawalStatus.APPROVED ||
     withdrawal.status === WithdrawalStatus.REJECTED;
   const onSubmit = async (data: UpdateWithdrawalProps) => {
-    console.log(data);
     try {
       await updateWithdrawal(data).unwrap();
     } catch (error) {
@@ -156,12 +155,14 @@ function UpdateWithdrawal({ withdrawal }: { withdrawal: WithdrawalBaseInfo }) {
                       value={field.value}
                       onChange={field.onChange}
                       dimensions="!h-[500px] !w-[290px]"
+                      className="h-[500px] w-[290px]"
                       default_value={withdrawal.confirm_image}
                     />
                   ) : (
                     <FileInput
                       value={field.value}
                       onChange={field.onChange}
+                      className="h-[500px] w-[290px]"
                       dimensions="!h-[500px] !w-[290px]"
                     />
                   )}

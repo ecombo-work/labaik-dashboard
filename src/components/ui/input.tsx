@@ -27,7 +27,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             "focus-visible:border-primary focus-visible:ring-primary/50 focus-visible:ring-0",
             "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
             "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
-            "placeholder:text-muted-foreground",
             "selection:bg-primary selection:text-primary-foreground",
             "shadow-none",
 

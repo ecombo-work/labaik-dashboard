@@ -34,7 +34,7 @@ export const useColumns = () => {
       {
         accessorKey: "created_at",
         header: t("date"),
-        size: 180,
+        size: 150,
         enableGlobalFilter: false,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },
@@ -69,7 +69,7 @@ export const useColumns = () => {
         header: t("actions"),
         size: 80,
         cell: ({ row }) => (
-          <DataTableActionCell icon="view" row={row} path="/dashboard/users" id_path="user_id" />
+          <DataTableActionCell icon="view" row={row} path="/dashboard/users/seekers" id_path="user_id" />
         ),
       },
     ],

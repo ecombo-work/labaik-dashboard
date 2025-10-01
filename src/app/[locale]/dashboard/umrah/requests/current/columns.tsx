@@ -4,6 +4,7 @@ import {
   DataTableCheckboxHeader,
   DataTableDateCell,
   DataTableSelectCell,
+  DataTableUserCell,
 } from "@/components/data-table/reuseable";
 import { UmrahRequest } from "@/interfaces/umrah";
 import { formatPrice } from "@/lib/utils/price-utils";
@@ -35,20 +36,22 @@ export const useColumns = () => {
       {
         accessorKey: "created_at",
         header: t("date"),
-        size: 180,
+        size: 150,
         enableGlobalFilter: false,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },
       {
-        accessorKey: "created_by.username",
+        accessorKey: "created_by",
         header: t("seeker"),
         size: 150,
-        cell: ({ row }) =>
-          row.original.created_by?.username +
-          " #" +
-          row.original.created_by?.user_id +
-          "",
-        enableGlobalFilter: true,
+        cell: ({ row }) => {
+          return (
+            <DataTableUserCell
+              accessorKey={row.original.created_by?.username}
+              id_key={row.original.created_by?.user_id}
+            />
+          );
+        },
       },
       {
         accessorKey: "price",
@@ -59,16 +62,18 @@ export const useColumns = () => {
         enableGlobalFilter: true,
       },
       {
-        accessorKey: "assigned_to.username",
+        accessorKey: "assigned_to",
         header: t("performer"),
         size: 150,
         cell: ({ row }) =>
-          row.original.assigned_to
-            ? row.original.assigned_to.username +
-              " #" +
-              row.original.assigned_to?.user_id +
-              ""
-            : "__",
+          row.original.assigned_to ? (
+            <DataTableUserCell
+              accessorKey={row.original.assigned_to?.username}
+              id_key={row.original.assigned_to?.user_id}
+            />
+          ) : (
+            "__"
+          ),
         enableGlobalFilter: true,
       },
       {

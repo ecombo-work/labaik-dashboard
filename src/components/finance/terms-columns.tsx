@@ -11,6 +11,7 @@ export const useTermsColumns = () => {
       {
         accessorKey: "created_at",
         header: t("date"),
+        
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },
       {

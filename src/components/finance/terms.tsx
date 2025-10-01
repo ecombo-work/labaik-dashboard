@@ -6,17 +6,26 @@ import { useUrlSearchParams } from "@/lib/utils/search-params";
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/constants/pagination";
 import { DataTable } from "../data-table";
 import CreateTerm from "./create-term";
+import { usePathname } from "@/i18n/navigation";
+import { TermType } from "./transactions";
 
 function Terms() {
   const columns = useTermsColumns();
   const { queryParams } = useUrlSearchParams();
-
+  const pathname = usePathname();
+  const isIncoming = pathname.includes("incoming");
   const { data, isLoading, error, refetch } = useGetTermsQuery(
     {
       page: queryParams.page ?? DEFAULT_PAGE,
       limit: queryParams.limit ?? DEFAULT_LIMIT,
-      type: queryParams.type,
+      type: isIncoming ? TermType.INCOMING : TermType.OUTGOING,
+      ...queryParams,
     },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    }
   );
 
   return (

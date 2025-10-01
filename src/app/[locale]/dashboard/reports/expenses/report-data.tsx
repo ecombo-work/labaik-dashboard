@@ -7,6 +7,7 @@ import { endOfMonth, startOfMonth } from "date-fns";
 import { ChartAreaDefault } from "@/components/charts-graphs/area-chart";
 import { ChartConfig } from "@/components/ui/chart";
 import { ChartBarDefault } from "@/components/charts-graphs/bar-chart";
+import ExpensesTable from "./table";
 
 function ReportData() {
   const t = useTranslations("reports");
@@ -28,16 +29,20 @@ function ReportData() {
       color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
+  if (isLoading) return <div>Loading...</div>;
   return (
-    <ChartBarDefault
-      data={
-        data?.data?.map((item) => ({
-          key: item.name,
-          value: Number(item.total_expense),
-        }))!
-      }
-      config={chartConfig}
-    />
+    <div>
+      <ChartBarDefault
+        data={
+          data?.data?.map((item) => ({
+            key: item.name,
+            value: Number(item.total_expense),
+          }))!
+        }
+        config={chartConfig}
+      />
+      <ExpensesTable data={data?.data!} t={t} />
+    </div>
   );
 }
 

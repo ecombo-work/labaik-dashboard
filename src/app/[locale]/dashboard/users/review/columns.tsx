@@ -35,7 +35,7 @@ export const useColumns = () => {
       {
         accessorKey: "created_at",
         header: t("date"),
-        size: 180,
+        size: 150,
         enableGlobalFilter: false,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },

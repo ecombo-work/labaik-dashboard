@@ -18,7 +18,7 @@ function DataTableHeaderComponent<TData>({
   return (
     <TableHeader className="bg-primary/10 rounded-t-xl">
       {headerGroups.map((headerGroup) => (
-        <TableRow key={headerGroup.id}>
+        <TableRow key={headerGroup.id} className="h-11">
           {headerGroup.headers.map((header) => (
             <TableHead
               key={header.id}

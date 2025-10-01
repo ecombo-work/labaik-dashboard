@@ -6,11 +6,12 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
 export const ImageZoom = ({ src }: { src: string }) => {
+  if (!src) src = "/placeholder.jpg";
   return (
     <div className="relative flex h-[360px] max-w-[320px] flex-col items-start rounded-xl ">
       <DefaultImageZoom>
         <Image
-          src={src === "" ? "/placeholder.jpg" : src}
+          src={src}
           alt="Profile Image"
           height={700}
           width={700}

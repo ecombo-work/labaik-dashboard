@@ -2,6 +2,7 @@
 import { DataTableActionCell } from "@/components/data-table/cell-actions";
 import {
   DataTableDateCell,
+  DataTableUserCell,
   DataTableWithdrawalMethodCell,
   DataTableWithdrawalStatusCell,
 } from "@/components/data-table/reuseable";
@@ -19,33 +20,41 @@ export const useColumns = () => {
       {
         accessorKey: "withdrawal_id",
         header: "#",
+        size: 50,
       },
       {
         accessorKey: "created_at",
         header: t("date"),
+        size: 180,
         cell: ({ row }) => <DataTableDateCell row={row} />,
       },
       {
         accessorKey: "user.username",
         header: t("performer"),
-        // username and id
-        cell: ({ row }) =>
-          row.original.user.username + " #" + row.original.user.user_id + "",
+        cell: ({ row }) => (
+          <DataTableUserCell
+            accessorKey={row.original.user?.username}
+            id_key={row.original.user?.user_id}
+          />
+        ),
       },
-      {
-        accessorKey: "amount",
-        header: t("amount"),
-        cell: ({ row }) =>
-          formatPrice(row.getValue("amount"), { isRTL: dir === "rtl" }),
-      },
+
       {
         accessorKey: "method",
         header: t("payment_method"),
         cell: ({ row }) => <DataTableWithdrawalMethodCell row={row} />,
       },
       {
+        accessorKey: "amount",
+        header: t("amount"),
+        size: 50,
+        cell: ({ row }) =>
+          formatPrice(row.getValue("amount"), { isRTL: dir === "rtl" }),
+      },
+      {
         accessorKey: "status",
         header: t("status"),
+        size: 150,
         cell: ({ row }) => <DataTableWithdrawalStatusCell row={row} />,
       },
 
