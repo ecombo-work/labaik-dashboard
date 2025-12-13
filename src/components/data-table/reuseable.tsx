@@ -135,10 +135,8 @@ export function DataTableWithdrawalMethodCell<TData, TValue>({
 }) {
   const t = useTranslations("data_table.withdrawal_methods");
   const methodValue = row.getValue("method") as WithdrawalMethod;
-  const userTypeKey = withdrawalMethodToString(methodValue);
-  return (
-    <div className="flex items-center justify-center">{t(userTypeKey)}</div>
-  );
+  const methodKey = withdrawalMethodToString(methodValue);
+  return <div className="flex items-center justify-center">{t(methodKey)}</div>;
 }
 
 export const withdrawalStatusToString = (status: WithdrawalStatus): string => {

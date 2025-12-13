@@ -33,12 +33,14 @@ export default function Page({
     return <section>Not Found</section>;
   }
   const withdrawal = data.data;
+ 
+
   return (
     <React.Fragment>
       <div className="flex justify-between items-center">
         <Title>{t("withdrawal_details", { withdrawal_id })}</Title>
       </div>
-      <div className="card space-y-3">
+      <div className=" space-y-3">
         <WithdrawalInfo withdrawal={withdrawal} />
         {withdrawal.method === WithdrawalMethod.BANK_TRANSFER && (
           <BankDetails withdrawal={withdrawal.bank_details} />

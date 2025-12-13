@@ -136,30 +136,3 @@ export function getCountryInfo(
     names,
   };
 }
-
-// Example usage:
-/*
-// Get country name in different languages
-console.log(getCountryName('EG', 'en')); // "Egypt"
-console.log(getCountryName('EG', 'ar')); // "مصر"
-
-// Get all country names in a specific language
-const allCountries = getAllCountryNames('ar');
-console.log(allCountries['EG']); // "مصر"
-
-// Get country code from name
-console.log(getCountryCode('Egypt')); // "EG"
-console.log(getCountryCode('مصر', 'ar')); // "EG"
-
-// Get comprehensive country info
-const countryInfo = getCountryInfo('EG', ['en', 'ar', 'fr']);
-console.log(countryInfo);
-// {
-//   code: 'EG',
-//   names: {
-//     en: 'Egypt',
-//     ar: 'مصر',
-//     fr: 'Égypte'
-//   }
-// }
-*/

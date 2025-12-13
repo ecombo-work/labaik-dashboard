@@ -67,6 +67,9 @@ interface UmrahProgress {
   sai: string;
   sai_started_at: string | null;
   sai_completed_at: string | null;
+  haircut: string;
+  haircut_started_at: string | null;
+  haircut_completed_at: string | null;
   notes: string | null;
   progress_percentage: number;
   created_at: string;

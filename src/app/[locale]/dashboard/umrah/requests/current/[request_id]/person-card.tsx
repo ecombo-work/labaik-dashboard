@@ -9,7 +9,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { UmrahDetailsResponse } from "@/interfaces/umrah";
-import { formatPrice } from "@/lib/utils/price-utils";
 import { IconUser } from "@tabler/icons-react";
 export const PersonCard = ({
   person,

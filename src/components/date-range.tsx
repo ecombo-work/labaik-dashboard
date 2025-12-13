@@ -138,39 +138,89 @@ export const CalendarDatePicker = React.forwardRef<
     const handleClose = () => setIsOpen(false);
 
     const handleTogglePopover = () => setIsOpen((prev) => !prev);
-
+    const toUTC = (date: Date) => {
+      return new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    };
     const selectDateRange = (from: Date, to: Date, range: string) => {
-      const startDate = startOfDay(toDate(from, { timeZone }));
-      const endDate =
-        numberOfMonths === 2 ? endOfDay(toDate(to, { timeZone })) : startDate;
-      onDateSelect({ from: startDate, to: endDate });
+      // Keep local user experience but send UTC values
+      const startDateLocal = startOfDay(from);
+      const endDateLocal = numberOfMonths === 2 ? endOfDay(to) : startDateLocal;
+
+      const fromUTC = toUTC(startDateLocal);
+      const toUTCValue = toUTC(endDateLocal);
+
+      onDateSelect({ from: fromUTC, to: toUTCValue });
+
       setSelectedRange(range);
       setMonthFrom(from);
       setYearFrom(from.getFullYear());
       setMonthTo(to);
       setYearTo(to.getFullYear());
-      closeOnSelect && setIsOpen(false);
+
+      if (closeOnSelect) setIsOpen(false);
     };
 
     const handleDateSelect = (range: DateRange | undefined) => {
       if (range) {
-        let from = startOfDay(toDate(range.from as Date, { timeZone }));
-        let to = range.to ? endOfDay(toDate(range.to, { timeZone })) : from;
+        let fromLocal = startOfDay(range.from as Date);
+        let toLocal = range.to ? endOfDay(range.to) : fromLocal;
+
         if (numberOfMonths === 1) {
           if (range.from !== date?.from) {
-            to = from;
+            toLocal = fromLocal;
           } else {
-            from = startOfDay(toDate(range.to as Date, { timeZone }));
+            fromLocal = startOfDay(range.to as Date);
           }
         }
-        onDateSelect({ from, to });
-        setMonthFrom(from);
-        setYearFrom(from.getFullYear());
-        setMonthTo(to);
-        setYearTo(to.getFullYear());
+
+        const fromUTC = toUTC(fromLocal);
+        const toUTCValue = toUTC(toLocal);
+
+        onDateSelect({ from: fromUTC, to: toUTCValue });
+
+        setMonthFrom(fromLocal);
+        setYearFrom(fromLocal.getFullYear());
+        setMonthTo(toLocal);
+        setYearTo(toLocal.getFullYear());
       }
+
       setSelectedRange(null);
     };
+    // const selectDateRange = (from: Date, to: Date, range: string) => {
+    //   // const startDate = startOfDay(toDate(from, { timeZone }));
+    //   // const endDate =
+    //   //   numberOfMonths === 2 ? endOfDay(toDate(to, { timeZone })) : startDate;
+    //   const startDate = startOfDay(toDate(from, { timeZone }));
+    //   const endDate =
+    //     numberOfMonths === 2 ? endOfDay(toDate(to, { timeZone })) : startDate;
+    //   onDateSelect({ from: startDate, to: endDate });
+    //   setSelectedRange(range);
+    //   setMonthFrom(from);
+    //   setYearFrom(from.getFullYear());
+    //   setMonthTo(to);
+    //   setYearTo(to.getFullYear());
+    //   closeOnSelect && setIsOpen(false);
+    // };
+
+    // const handleDateSelect = (range: DateRange | undefined) => {
+    //   if (range) {
+    //     let from = startOfDay(toDate(range.from as Date, { timeZone }));
+    //     let to = range.to ? endOfDay(toDate(range.to, { timeZone })) : from;
+    //     if (numberOfMonths === 1) {
+    //       if (range.from !== date?.from) {
+    //         to = from;
+    //       } else {
+    //         from = startOfDay(toDate(range.to as Date, { timeZone }));
+    //       }
+    //     }
+    //     onDateSelect({ from, to });
+    //     setMonthFrom(from);
+    //     setYearFrom(from.getFullYear());
+    //     setMonthTo(to);
+    //     setYearTo(to.getFullYear());
+    //   }
+    //   setSelectedRange(null);
+    // };
 
     const handleMonthChange = (newMonthIndex: number, part: string) => {
       setSelectedRange(null);
@@ -451,7 +501,7 @@ export const CalendarDatePicker = React.forwardRef<
               <span className="text-sm">
                 {date && date.from ? (
                   date.to ? (
-                    <span 
+                    <span
                       className="date-part"
                       dir={locale === "ar" ? "rtl" : "ltr"}
                     >

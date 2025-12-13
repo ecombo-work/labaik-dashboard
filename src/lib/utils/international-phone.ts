@@ -133,24 +133,3 @@ export function isValidPhoneNumber(phone: string, countryCode?: CountryCode): bo
     return false;
   }
 }
-
-/* Example usage:
-// Basic usage
-formatPhone('+1 650 253 0000'); // => "+1 650 253 0000"
-formatPhone('6502530000', { countryCode: 'US' }); // => "+1 650 253 0000"
-
-// Different formats
-formatPhone('+1 650 253 0000', { format: 'E.164' }); // => "+16502530000"
-formatPhone('+1 650 253 0000', { format: 'National' }); // => "(650) 253-0000"
-
-// Error handling
-try {
-  formatPhone('invalid', { strict: true });
-} catch (error) {
-  console.error(error.message); // "Invalid phone number format: NOT_A_NUMBER"
-}
-
-// Helper functions
-console.log(getCountryCallingCode('+1 650 253 0000')); // "+1"
-console.log(isValidPhoneNumber('+1 650 253 0000', 'US')); // true
-*/

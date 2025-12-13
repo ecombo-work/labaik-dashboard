@@ -73,6 +73,19 @@ function BankDetails({ withdrawal }: { withdrawal: BankAccount }) {
           )}
         />
         <Controller
+          name="account_currency"
+          control={form.control}
+          disabled
+          render={({ field }) => (
+            <FormItem className="col-span-2 lg:col-span-3">
+              <FormLabel>{t("account_currency")}</FormLabel>
+              <FormControl>
+                <Input {...field} disabled />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Controller
           name="iban"
           control={form.control}
           disabled

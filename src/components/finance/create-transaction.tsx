@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,10 +27,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-import { useCreateTermMutation, useGetTermsQuery } from "@/lib/apis/term";
+import { useGetTermsQuery } from "@/lib/apis/term";
 import { useUrlSearchParams } from "@/lib/utils/search-params";
 import { useGetAccountsQuery } from "@/lib/apis/account";
-import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/constants/pagination";
 import {
   Select,
   SelectContent,
@@ -38,11 +37,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Calendar } from "../ui/calendar";
 import SingleDateCalendar from "../single-date-calendar";
 import { REGEXP_ONLY_DIGITS } from "@/constants/patterns";
 import { useCreateTransactionMutation } from "@/lib/apis/finance";
 import { formatDate } from "date-fns";
+import { usePathname } from "@/i18n/navigation";
+import { TermType } from "./transactions";
 const createTransactionSchema = z.object({
   amount: z.string().regex(REGEXP_ONLY_DIGITS, "Amount must be a number"),
   term_id: z.string().min(1, "Term is required"),
@@ -54,8 +54,11 @@ const createTransactionSchema = z.object({
 type formInterface = z.infer<typeof createTransactionSchema>;
 function CreateTransaction({ pre_loader }: { pre_loader: boolean }) {
   const t = useTranslations("transactions");
-  const { queryParams } = useUrlSearchParams();
+  const pathname = usePathname();
+  const isIncoming = pathname.includes("incoming");
   const [createTransaction, { isLoading }] = useCreateTransactionMutation();
+  const type = isIncoming ? TermType.INCOMING : TermType.OUTGOING;
+  type.toString();
   const { data: accounts, isLoading: accountsLoading } = useGetAccountsQuery({
     page: "1",
     limit: "50",
@@ -63,20 +66,25 @@ function CreateTransaction({ pre_loader }: { pre_loader: boolean }) {
   const { data: terms, isLoading: termsLoading } = useGetTermsQuery({
     page: "1",
     limit: "50",
-    type: queryParams.type,
+    type,
   });
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const form = useForm<formInterface>({
     resolver: zodResolver(createTransactionSchema),
+    mode: "onSubmit",
     defaultValues: {
       amount: "",
       term_id: "",
       account_id: "",
       received_at: new Date(),
       note: "",
-      type: queryParams.type,
+      type: type,
     },
   });
+  console.log(isIncoming);
+  console.log(isIncoming ? TermType.INCOMING : TermType.OUTGOING);
+
+  console.log(form.formState.errors);
 
   const onSubmit = async (data: formInterface) => {
     console.log(data);
@@ -219,10 +227,20 @@ function CreateTransaction({ pre_loader }: { pre_loader: boolean }) {
               )}
             />
             <DialogFooter>
-              <DialogClose disabled={isLoading} onClick={() => form.reset()}>
+              <DialogClose
+                type="button"
+                disabled={isLoading}
+                onClick={() => form.reset()}
+              >
                 {t("cancel")}
               </DialogClose>
-              <Button is_loading={isLoading} className="!h-9 !w-30">
+
+              <Button
+                type="submit" // ✅ ensures form submits properly
+                disabled={isLoading}
+                is_loading={isLoading} // ✅ show loading state for submit, not for terms
+                className="!h-9 !w-30"
+              >
                 {t("save")}
               </Button>
             </DialogFooter>

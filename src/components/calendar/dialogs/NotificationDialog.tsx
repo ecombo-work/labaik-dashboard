@@ -108,7 +108,7 @@ export function NotificationDialog({
   ] as const;
 
   const handleSubmit = (data: NotificationFormValues) => {
-    console.log(data);
+
     if (onSubmit) {
       const notificationDate = new Date(selectedDate);
       const time = data.scheduledAt;

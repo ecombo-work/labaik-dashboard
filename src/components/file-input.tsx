@@ -62,13 +62,13 @@ const FileInput = ({
     handleFileSelection(null);
     if (inputRef.current) inputRef.current.value = "";
   };
-  console.log(default_value);
+ 
   const fileUrl = default_value
     ? default_value
     : value
     ? URL.createObjectURL(value)
     : "";
-  console.log(fileUrl);
+ 
   return (
     <div className={cn("space-y-2", className)}>
       <div

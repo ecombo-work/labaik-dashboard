@@ -8,12 +8,12 @@ export interface BankAccount {
   account_number: string;
   bank_name: string;
   bank_country: string;
+  account_currency: string;
   iban: string;
 }
 export interface Binance {
   withdrawal_binance_id: number;
-  account_id: string;
-  link: string;
+  wallet_id: string;
 }
 export interface PayPal {
   withdrawal_paypal_id: number;

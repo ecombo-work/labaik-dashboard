@@ -488,6 +488,9 @@
       "tawaf_started_at": "وقت بدء الطواف",
       "tawaf_completed_at": "وقت اكتمال الطواف",
       "sai": "السعي",
+      "haircut": "الحلق والتقصير",
+      "haircut_started_at": "وقت بدء الحلق والتقصير",
+      "haircut_completed_at": "وقت اكتمال الحلق والتقصير",
       "sai_started_at": "وقت بدء السعي",
       "sai_completed_at": "وقت اكتمال السعي",
       "notes": "الملاحظات",
@@ -734,6 +737,7 @@
       "account_number": "رقم الحساب",
       "bank_name": "اسم البنك",
       "bank_country": "بلد البنك",
+      "account_currency": "عملة الحساب",
       "iban": "رقم IBAN"
     },
     "update": {

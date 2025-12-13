@@ -192,6 +192,7 @@ export default async function LocaleLayout({
         className={`min-h-svh bg-background   ${
           locale === "ar" ? almarai.variable : GeistSans.variable
         } antialiased max-w-screen`}
+        suppressHydrationWarning
       >
         <PushNotificationsProvider>
           <NextIntlClientProvider>

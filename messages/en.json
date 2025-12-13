@@ -483,6 +483,9 @@
       "sai": "Sa'i",
       "sai_started_at": "Sa'i Started At",
       "sai_completed_at": "Sa'i Completed At",
+      "haircut": "Halq",
+      "haircut_started_at": "Halq Started At",
+      "haircut_completed_at": "Halq Completed At",
       "notes": "Notes",
       "progress_percentage": "Progress",
       "created_at": "Created At",
@@ -725,6 +728,7 @@
       "holder_name": "Account Holder Name",
       "account_number": "Account Number",
       "bank_name": "Bank Name",
+      "account_currency": "Account Currency",
       "bank_country": "Bank Country",
       "iban": "IBAN"
     },

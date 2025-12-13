@@ -68,9 +68,7 @@ export function DataTablePageSize<TData>({
 
   // Determine the current page size to display
   const displayPageSize = urlPageSize ? Number(urlPageSize) : pageSize || 25;
-  console.log("=====================================");
-  console.log(currentPageSize);
-  console.log("=====================================");
+ 
   return (
     <div className="flex items-center gap-2">
       {/* <span className="text-sm text-muted-foreground">Rows per page:</span> */}

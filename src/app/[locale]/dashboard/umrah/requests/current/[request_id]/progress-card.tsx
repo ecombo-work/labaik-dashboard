@@ -75,6 +75,7 @@ export const ProgressCard = ({
             <p>{t("progress.ihram")}:</p>
             <p>{t("progress.tawaf")}:</p>
             <p>{t("progress.sai")}:</p>
+            <p>{t("progress.haircut")}:</p>
           </div>
           <div className="flex items-start flex-col gap-3 min-w-36">
             <h4 className="font-semibold">{t("progress.started_at")}</h4>
@@ -93,6 +94,13 @@ export const ProgressCard = ({
                 ? formatDate(progress.sai_started_at)
                 : "-"}
             </p>
+            <p>
+              {
+                progress.haircut_started_at
+                  ? formatDate(progress.haircut_started_at)
+                  : "-"
+              }
+            </p>
           </div>
           <div className="flex items-start flex-col gap-3 min-w-36">
             <h4 className="font-semibold">{t("progress.ended_at")}</h4>
@@ -110,6 +118,13 @@ export const ProgressCard = ({
               {progress.sai_completed_at
                 ? formatDate(progress.sai_completed_at)
                 : "-"}
+            </p>
+            <p>
+              {
+                progress.haircut_completed_at
+                  ? formatDate(progress.haircut_completed_at)
+                  : "-"
+              }
             </p>
           </div>
           <div className="flex items-start flex-col gap-3 min-w-36">
@@ -143,6 +158,18 @@ export const ProgressCard = ({
                     )
                   )
                 : "-"}
+            </p>
+            <p>
+              {
+                progress.haircut_completed_at && progress.haircut_started_at
+                  ? formatToHHMM(
+                      differenceInMinutes(
+                        progress.haircut_completed_at,
+                        progress.haircut_started_at
+                      )
+                    )
+                  : "-"
+              }
             </p>
           </div>
         </div>

@@ -11,7 +11,7 @@ function isAuthorizedPath(pathname: string, allowedPaths: string[]) {
     (allowed) => pathname === allowed || pathname.startsWith(allowed + "/")
   );
 }
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   // const pathname = request.nextUrl.pathname;
   // const access_token = request.cookies.get("ACCESS_TOKEN")?.value;
   // const user_type = request.cookies.get("USER_TYPE")?.value as UserType;

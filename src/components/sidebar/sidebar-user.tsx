@@ -54,7 +54,6 @@ export function SidebarUser({ user }: { user: LoginResponse }) {
       setTheme("dark");
     }
   };
-  console.log(pathname);
   const handleLanguageChange = () => {
     router.replace(pathname, { locale: locale === "en" ? "ar" : "en" });
   };
