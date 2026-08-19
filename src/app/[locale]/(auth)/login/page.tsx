@@ -29,7 +29,7 @@ import Image from "next/image";
 // const labaik_ar = "/labaik_ar.png";
 export default function Page() {
   const [login, { isLoading }] = useLoginMutation();
-  const { refetch } = useGetCurrentUserQuery();
+  const { refetch } = useGetCurrentUserQuery(undefined, { skip: true });
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const { fcmToken } = useContext(PushNotificationsContext);
   const t = useTranslations("auth.login");

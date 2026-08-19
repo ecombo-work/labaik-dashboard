@@ -4,11 +4,14 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
 
   async rewrites() {
+    const backend =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3001"
+        : "https://labaika-server-1.onrender.com";
     return [
       {
         source: "/v1/:path*",
-        // destination: "http://localhost:3001/v1/:path*",
-        destination: "https://labaika-server-1.onrender.com/v1/:path*",
+        destination: `${backend}/v1/:path*`,
       },
     ];
   },
@@ -39,6 +42,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.jsdelivr.net",
+      },
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
       },
     ],
     minimumCacheTTL: 60 * 60 * 24 * 30,

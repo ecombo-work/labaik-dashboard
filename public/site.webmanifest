@@ -11,30 +11,23 @@
       "src": "/logo-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/logo-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "categories": ["business", "productivity", "utilities"],
   "lang": "en-US",
   "orientation": "portrait-primary",
-  "prefer_related_applications": false,
-  "screenshots": [
-    {
-      "src": "/screenshot1.png",
-      "sizes": "1280x800",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshot2.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
+  "prefer_related_applications": false
 }

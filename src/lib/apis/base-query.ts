@@ -18,6 +18,10 @@ export const baseQueryWithToast: typeof baseQuery = async (
     let errorMessage = "An error occurred";
 
     if (error.status === 401) {
+      const url = typeof args === "string" ? args : args.url;
+      if (url?.includes("/auth/current-user") || url?.includes("/auth/logout")) {
+        return result;
+      }
       errorMessage = "Unauthorized - Please log in again";
       toast.error(errorMessage);
       await baseQuery(
