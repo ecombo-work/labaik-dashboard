@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/v1/:path*",
-        destination: "http://localhost:3001/v1/:path*",
+        // destination: "http://localhost:3001/v1/:path*",
+        destination: "https://labaika-server-1.onrender.com/v1/:path*",
       },
     ];
   },
